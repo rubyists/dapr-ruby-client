@@ -2,7 +2,8 @@
 
 require_relative 'dapr/version'
 
-module Dapr
-  class Error < StandardError; end
-  # Your code goes here...
+module Rubyists
+  module Dapr
+    class Error < StandardError; end
+  end
 end

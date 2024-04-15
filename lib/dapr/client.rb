@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
+require_relative '../dapr'
 require 'semantic_logger'
-require 'dapr-ruby'
+require 'dapr-client'
 require 'dapr/proto/runtime/v1/dapr_services_pb'
 
 module Rubyists
@@ -11,7 +12,7 @@ module Rubyists
       include SemanticLogger::Loggable
       DAPR_PORT = ENV.fetch('DAPR_GRPC_PORT', '5001')
       DAPR_URI = ENV.fetch('DAPR_GRPC_HOST', 'localhost')
-      DAPR_STUB = Dapr::Proto::Runtime::V1::Dapr::Stub
+      DAPR_STUB = ::Dapr::Proto::Runtime::V1::Dapr::Stub
 
       def self.client
         logger.info "Creating Dapr client for #{DAPR_URI}:#{DAPR_PORT}"
