@@ -2,6 +2,6 @@
 
 module Rubyists
   module Dapr
-    VERSION = '0.1.2'
+    VERSION = '0.1.3'
   end
 end
