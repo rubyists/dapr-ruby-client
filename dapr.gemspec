@@ -4,7 +4,7 @@ require_relative 'lib/dapr/version'
 
 Gem::Specification.new do |spec|
   spec.name = 'dapr'
-  spec.version = Dapr::VERSION
+  spec.version = Rubyists::Dapr::VERSION
   spec.authors = ['Tj (bougyman) Vanderpoel', 'afulki']
   spec.email = ['tj@rubyists.com']
 

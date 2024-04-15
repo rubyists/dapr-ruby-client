@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
-module Dapr
-  VERSION = '0.1.0'
+module Rubyists
+  module Dapr
+    VERSION = '0.1.0'
+  end
 end
