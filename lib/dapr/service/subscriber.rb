@@ -13,18 +13,42 @@ module Rubyists
 
         attr_reader(:service_proto, :runtime_proto, :pubsub_name, :topics, :event_handler)
 
-        Port = ENV.fetch('DAPR_GRPC_APP_PORT', 50_051)
-
         def initialize(pubsub_name:,
                        topics:,
                        handler: nil,
-                       service_proto: Dapr::Proto::Runtime::V1::AppCallback::Service,
-                       runtime_proto: Dapr::Proto::Runtime::V1)
+                       service_proto: ::Dapr::Proto::Runtime::V1::AppCallback::Service,
+                       runtime_proto: ::Dapr::Proto::Runtime::V1)
           @topics = Array(topics)
           @pubsub_name = pubsub_name
           @service_proto = service_proto
           @runtime_proto = runtime_proto
           @handler = handler
+        end
+
+        # Start the subscriber service. This method will block until the service is terminated.
+        # The service will listen on the specified port and address.
+        #
+        # @note if grpc_port is not provided, the service will listen on the port returned by the #port method.
+        # @note the service will listen on all interfaces by default.
+        #
+        # @param [Integer] grpc_port the port to listen on
+        # @param [String] listen_address the address to listen on
+        #
+        # @return [Subscriber] the subscriber instance
+        def start!(grpc_port: nil, listen_address: '0.0.0.0')
+          server = GRPC::RpcServer.new
+          grpc_port ||= port
+          server.add_http2_port("#{listen_address}:#{grpc_port}", :this_port_is_insecure)
+          server.handle(service)
+          log.warn('Starting Dapr Subscriber service', grpc_port:)
+          server.run_till_terminated_or_interrupted([1, +'int', +'SIGQUIT'])
+          self
+        end
+
+        private
+
+        def port
+          @port ||= ENV.fetch('DAPR_GRPC_APP_PORT', 50_051)
         end
 
         def handle_event!(topic_event, topic_call)
@@ -36,12 +60,14 @@ module Rubyists
                       handler:)
         end
 
+        # @return [Array] The list of subscriptions for the Subscriber
         def subscriptions
           @subscriptions ||= topics.map do |topic|
             runtime_proto::TopicSubscription.new(pubsub_name:, topic:)
           end
         end
 
+        # @return [Class] the service class to use for the Subscriber
         def service # rubocop:disable Metrics/MethodLength
           return @service if @service
 
@@ -55,14 +81,6 @@ module Rubyists
               subscriber.runtime_proto::ListTopicSubscriptionsResponse.new(subscriptions: subscriber.subscriptions)
             end
           end
-        end
-
-        def start!
-          server = GRPC::RpcServer.new
-          server.add_http2_port("0.0.0.0:#{Port}", :this_port_is_insecure)
-          server.handle(service)
-          log.warn('Starting Dapr Subscriber service', port: Port)
-          server.run_till_terminated_or_interrupted([1, +'int', +'SIGQUIT'])
         end
       end
     end
