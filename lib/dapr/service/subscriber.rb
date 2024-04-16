@@ -45,12 +45,6 @@ module Rubyists
           self
         end
 
-        private
-
-        def port
-          @port ||= ENV.fetch('DAPR_GRPC_APP_PORT', 50_051)
-        end
-
         def handle_event!(topic_event, topic_call)
           return handler&.call(topic_event, topic_call) if handler.respond_to?(:call)
 
@@ -65,6 +59,12 @@ module Rubyists
           @subscriptions ||= topics.map do |topic|
             runtime_proto::TopicSubscription.new(pubsub_name:, topic:)
           end
+        end
+
+        private
+
+        def port
+          @port ||= ENV.fetch('DAPR_GRPC_APP_PORT', 50_051)
         end
 
         # @return [Class] the service class to use for the Subscriber
