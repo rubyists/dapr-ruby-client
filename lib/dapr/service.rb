@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
-require_relative '../dapr'
+require 'semantic_logger'
 require 'dapr/proto/runtime/v1/appcallback_services_pb'
+require_relative '../dapr'
 
 module Rubyists
   module Dapr
