@@ -24,11 +24,11 @@ module Rubyists
       end
 
       def client
-        self.class.client
+        Rubyists::Dapr::Client.client
       end
 
       def singleton
-        self.class.singleton
+        @singleton ||= Rubyists::Dapr::Client.singleton
       end
     end
   end
