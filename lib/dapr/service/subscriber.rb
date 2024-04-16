@@ -68,15 +68,12 @@ module Rubyists
         end
 
         # @return [Class] the service class to use for the Subscriber
-        def service # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+        def service # rubocop:disable Metrics/MethodLength
           return @service if @service
 
           subscriber = self
           @service = Class.new(service_proto) do
-            define_method(:subscribe) do |subscriber_call|
-              logger.debug "Received subscribe to #{subscriber_call}"
-              Google::Protobuf::Empty.new
-            end
+            include SemanticLogger::Loggable
 
             define_method(:on_topic_event) do |topic_event, topic_call|
               logger.debug "Received on_topic_event: #{topic_event}"
