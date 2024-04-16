@@ -10,8 +10,8 @@ module Rubyists
         # Include the client module
         include Client
 
-        # The name of the pubsub component, and the client
-        attr_reader :pubsub_name, :client
+        # The name of the pubsub component, the client, and the serialization to use
+        attr_reader :pubsub_name, :client, :serialization
 
         # The proto class for the publish event request
         Proto = ::Dapr::Proto::Runtime::V1::PublishEventRequest
