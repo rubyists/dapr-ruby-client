@@ -40,7 +40,7 @@ module Rubyists
           grpc_port ||= port
           server.add_http2_port("#{listen_address}:#{grpc_port}", :this_port_is_insecure)
           server.handle(service)
-          log.warn('Starting Dapr Subscriber service', grpc_port:)
+          logger.warn('Starting Dapr Subscriber service', grpc_port:)
           server.run_till_terminated_or_interrupted([1, +'int', +'SIGQUIT'])
           self
         end
