@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require_relative '../dapr'
+require 'json'
 require 'semantic_logger'
 require 'dapr-client'
 require 'dapr/proto/runtime/v1/dapr_services_pb'
