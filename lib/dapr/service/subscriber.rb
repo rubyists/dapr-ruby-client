@@ -11,7 +11,7 @@ module Rubyists
       class Subscriber
         include SemanticLogger::Loggable
 
-        attr_reader(:service_proto, :runtime_proto, :pubsub_name, :topics, :event_handler)
+        attr_reader(:service_proto, :runtime_proto, :pubsub_name, :topics, :handler)
 
         def initialize(pubsub_name:,
                        topics:,
