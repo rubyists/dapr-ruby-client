@@ -6,24 +6,46 @@
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
+:dapr-building-block: https://docs.dapr.io/concepts/building-blocks-overview/[Dapr Building Block]
 
 == Overview
 
 This library provides a Ruby client for the Dapr runtime. It is a work in progress and is not yet ready for production use.
 
+Documentation will be added as the library matures.
+
 == Installation
 
 Install the gem and add to the application's Gemfile by executing:
 
-    $ bundle add dapr-client
+    $ bundle add dapr --require dapr/client
 
 If bundler is not being used to manage dependencies, install the gem by executing:
 
-    $ gem install dapr-client
+    $ gem install dapr
 
 == Usage
 
-This library is a WIP and will be documented as the interface is finalized.
+Dapr being such a kitchen sink, the client exposes each dapr building block as either a
+client or a service, depending on whether it uses the AppCallback runtime (Service) or
+the Dapr API (Client). The clients art thin wrappers around the Dapr API, while the service
+is a more opinionated and higher-level abstraction.
+
+Each {dapr-building-block} is exposed as a class under the `Rubyists::Dapr::Client` or
+`Rubyists::Dapr::Service` namespace.
+
+=== Publish a message
+
+[source,ruby]
+----
+require 'dapr/client/publisher'
+ENV['DAPR_GRPC_PORT'] = '3500' <1>
+publisher = Rubyists::Dapr::Client::Publisher.new('pubsub-name') <2>
+publisher.publish('topic-name', { message: 'Hello, Dapr!', from: 'Ruby' })
+----
+<1> Set the Dapr gRPC port to the Dapr runtime port. (This is automatically set in kubernetes environments)
+<2> Create a new publisher for the `pubsub-name` pubsub component. This component must be defined in the Dapr runtime.
+<3> Publish a message to the `topic-name` topic.
 
 == Development
 
