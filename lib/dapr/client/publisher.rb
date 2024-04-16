@@ -12,7 +12,7 @@ module Rubyists
         attr_reader :pubsub_name, :client
 
         # The proto class for the publish event request
-        Proto = Dapr::Proto::Runtime::V1::PublishEventRequest
+        Proto = ::Dapr::Proto::Runtime::V1::PublishEventRequest
 
         # Initialize the publisher
         # @param name [String] The name of the pubsub component in Dapr
