@@ -47,6 +47,28 @@ publisher.publish('topic-name', { message: 'Hello, Dapr!', from: 'Ruby' })
 <2> Create a new publisher for the `pubsub-name` pubsub component. This component must be defined in the Dapr runtime.
 <3> Publish a message to the `topic-name` topic.
 
+=== Subscribe to topics
+
+Subscriptions in Dapr work a little different than you may be used to. Instead of subscribing to a topic
+then looping through consumed messages, you define a fully-fledged service that Dapr will
+send each message to in the topic(s) that you specify. This unique appreach allows you to
+focus on the business logic of your service, rather than the plumbing of message consumption.
+
+[source,ruby]
+----
+require 'dapr/service/subscriber'
+handler = ->(event) { puts "Got event: #{event}" } <1>
+pubsub_name: 'pubsub' <2>
+sub = Rubyists::Dapr::Service::Subscriber.new(pubsub_name:, topics: 'TOPIC-A', handler: handler) <3>
+sub.start! <4>
+----
+<1> Define a handler that will be called for each message received. `event` will be a `CloudEvents::Event` instance.
+<2> The name of the Dapr pubsub component this subscriber will utilize.
+<3> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
+<4> Start the subscriber. This will block the current thread and call the handler for each message received.
+
+TIP:: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
+
 == Development
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
