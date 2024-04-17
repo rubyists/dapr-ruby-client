@@ -36,6 +36,14 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
     $ gem install dapr
 
+.Example from Gemfile
+[source,ruby]
+----
+gem 'dapr', '~> 0.1.9', require: 'dapr/client'
+gem 'datadog_api_client'
+gem 'grpc', force_ruby_platform: true
+----
+
 == Usage
 
 Dapr being such a Smörgåsbord, this library exposes each {dapr-building-block} as either a
@@ -82,7 +90,7 @@ focus on the business logic of your service, rather than the plumbing of message
 ----
 require 'dapr/service/subscriber'
 handler = ->(event) { puts "Got event: #{event}" } <1>
-pubsub_name = 'pubsub' <2>
+pubsub_name = 'pubsub-name' <2>
 topics = 'TOPIC-A' <3>
 sub = Rubyists::Dapr::Service::Subscriber.new(pubsub_name:, topics:, handler:) <4>
 sub.start! <5>
@@ -91,12 +99,12 @@ sub.start! <5>
 +
 NOTE: The handler can be anything that responds to `#call`, such as a lambda, proc, or instance. Sky's the limit! (Dependency injection, anyone?)
 +
-<2> The name of the Dapr pubsub component this subscriber will utilize.
+<2> The name of the Dapr pubsub component this subscriber will utilize. 
 <3> The name of the topic(s) to subscribe to.
 +
 TIP: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
 +
-<4> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
+<4> Create a new subscriber for the `pubsub-name` pubsub component, subscribing to the `TOPIC-A` topic.
 <5> Start the subscriber. This will block the current thread and call the handler for each message received.
 
 === State Management
