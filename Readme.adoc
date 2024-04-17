@@ -66,7 +66,7 @@ sub.start! <5>
 <1> Define a handler that will be called for each message received. `event` will be a `CloudEvents::Event` instance.
 <2> The name of the Dapr pubsub component this subscriber will utilize.
 +
-TIP:: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
+TIP: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
 +
 <3> The name of the topic(s) to subscribe to.
 <4> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
