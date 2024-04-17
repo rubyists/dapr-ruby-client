@@ -36,11 +36,17 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 == Usage
 
-Dapr being such a kitchen sink, the client exposes each dapr building block as either a
-client or a service, depending on whether it uses the AppCallback runtime (Service) or
-the Dapr API (Client). The clients art thin wrappers around the Dapr API, while the service
-is a more opinionated and higher-level abstraction.
+Dapr being such a kitchen sink, this library exposes each {dapr-building-block} as either a
+Client or a Service, depending on whether it uses the AppCallback runtime (Service) or
+the Dapr API (Client). The clients are thin wrappers around the Dapr API, while the service
+ implementations will be more opinionated, higher-level abstractions. See the specific section on
+ the building block you are interested in for its usage information.
 
+== Building Blocks
+
+=== Namespace Convention
+
+In order to avoid conflicts with any other `Dapr` top level namespace(s),
 Each {dapr-building-block} is exposed as a class under the `Rubyists::Dapr::Client` or
 `Rubyists::Dapr::Service` namespace.
 
