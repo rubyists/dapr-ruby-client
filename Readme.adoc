@@ -55,11 +55,13 @@ Implementation of {pubsub-block}
 require 'dapr/client/publisher'
 ENV['DAPR_GRPC_PORT'] = '3500' <1>
 publisher = Rubyists::Dapr::Client::Publisher.new('pubsub-name') <2>
-publisher.publish('topic-name', { message: 'Hello, Dapr!', from: 'Ruby' })
+publisher.publish('topic-name', { message: 'Hello, Dapr!', from: 'Ruby' }) <3>
 ----
 <1> Set the Dapr gRPC port to the Dapr runtime port. (This is automatically set in kubernetes environments)
 <2> Create a new publisher for the `pubsub-name` pubsub component. This component must be defined in the Dapr runtime.
-<3> Publish a message to the `topic-name` topic.
+<3> Publish a message to the `topic-name` topic. The message can be any Ruby object that can be serialized to JSON.
++
+TIP: JSON is our default serializer. To use a different serializer, you can pass a `serializer:` argument to the publisher's initializer
 
 ==== Subscribe to topics
 
