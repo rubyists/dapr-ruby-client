@@ -58,16 +58,20 @@ focus on the business logic of your service, rather than the plumbing of message
 ----
 require 'dapr/service/subscriber'
 handler = ->(event) { puts "Got event: #{event}" } <1>
-pubsub_name: 'pubsub' <2>
-sub = Rubyists::Dapr::Service::Subscriber.new(pubsub_name:, topics: 'TOPIC-A', handler: handler) <3>
-sub.start! <4>
+pubsub_name = 'pubsub' <2>
+topics = 'TOPIC-A' <3>
+sub = Rubyists::Dapr::Service::Subscriber.new(pubsub_name:, topics:, handler:) <4>
+sub.start! <5>
 ----
 <1> Define a handler that will be called for each message received. `event` will be a `CloudEvents::Event` instance.
 <2> The name of the Dapr pubsub component this subscriber will utilize.
-<3> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
-<4> Start the subscriber. This will block the current thread and call the handler for each message received.
-
++
 TIP:: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
++
+<3> The name of the topic(s) to subscribe to.
+<4> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
+<5> Start the subscriber. This will block the current thread and call the handler for each message received.
+
 
 == Development
 
