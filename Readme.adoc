@@ -6,7 +6,7 @@
 :caution-caption: :fire:
 :warning-caption: :warning:
 endif::[]
-:dapr-building-block: https://docs.dapr.io/concepts/building-blocks-concept/ [Dapr Building Block]
+:dapr-building-block: https://docs.dapr.io/concepts/building-blocks-concept/[Dapr Building Block]
 
 == Overview
 
