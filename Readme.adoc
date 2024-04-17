@@ -20,9 +20,11 @@ endif::[]
 
 == Overview
 
-This library provides a Ruby client for the Dapr runtime. It is a work in progress and is not yet ready for production use.
+This library provides an interface to the {dapr-building-block}s.
 
-Documentation will be added as the library matures.
+CAUTION: This is a work in progress and is not yet ready for production use.
+
+NOTE: Documentation will be added as this library matures.
 
 == Installation
 
@@ -36,7 +38,7 @@ If bundler is not being used to manage dependencies, install the gem by executin
 
 == Usage
 
-Dapr being such a kitchen sink, this library exposes each {dapr-building-block} as either a
+Dapr being such a Smörgåsbord, this library exposes each {dapr-building-block} as either a
 Client or a Service, depending on whether it uses the AppCallback runtime (Service) or
 the Dapr API (Client). The clients are thin wrappers around the Dapr API, while the service
  implementations will be more opinionated, higher-level abstractions. See the specific section on
