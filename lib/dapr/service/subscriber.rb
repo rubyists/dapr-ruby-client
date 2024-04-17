@@ -13,6 +13,15 @@ module Rubyists
 
         attr_reader(:service_proto, :runtime_proto, :pubsub_name, :topics, :handler)
 
+        # Create a new Subscriber instance.
+        #
+        # @param [String]               pubsub_name   name of the pubsub component
+        # @param [String|Array<String>] topics        topic (or topics) to subscribe to
+        # @param [Proc|Object]          handler       handler to call when an event is received. Must respond to #call
+        # @param [Class]                service_proto Dapr Runtime Service Class to use for the subscriber
+        # @param [Module]               runtime_proto Dapr Runtime Proto Module to use for the subscriber
+        #
+        # @return [Subscriber] the subscriber instance
         def initialize(pubsub_name:,
                        topics:,
                        handler: nil,
@@ -38,9 +47,10 @@ module Rubyists
         def start!(grpc_port: nil, listen_address: '0.0.0.0')
           server = GRPC::RpcServer.new
           grpc_port ||= port
-          server.add_http2_port("#{listen_address}:#{grpc_port}", :this_port_is_insecure)
+          listener = "#{listen_address}:#{grpc_port}"
+          server.add_http2_port(listener, :this_port_is_insecure)
           server.handle(service)
-          logger.warn('Starting Dapr Subscriber service', grpc_port:)
+          logger.warn('Starting Dapr Subscriber service', listen_address:, grpc_port:)
           server.run_till_terminated_or_interrupted([1, +'int', +'SIGQUIT'])
           self
         end
