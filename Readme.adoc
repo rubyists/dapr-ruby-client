@@ -26,7 +26,7 @@ Documentation will be added as the library matures.
 
 == Installation
 
-Install the gem and add to the application's Gemfile by executing:
+Install the gem and add it to the application's Gemfile by executing:
 
     $ bundle add dapr --require dapr/client
 
@@ -71,7 +71,7 @@ TIP: JSON is our default serializer. To use a different serializer, you can pass
 
 ==== Subscribe to topics
 
-Subscriptions in Dapr work a little different than you may be used to. Instead of subscribing to a topic
+Subscriptions in Dapr work a little differently than you may be used to. Instead of subscribing to a topic
 then looping through consumed messages, you define a fully-fledged service that Dapr will
 send each message to in the topic(s) that you specify. This unique approach allows you to
 focus on the business logic of your service, rather than the plumbing of message consumption.
@@ -133,7 +133,7 @@ Implementation of {cryptography-block}
 
 After checking out the repo, run `bin/setup` to install dependencies. Then, run `rake spec` to run the tests. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to https://rubygems.org[rubygems.org].
+To install this gem on your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to https://rubygems.org[rubygems.org].
 
 == Contributing
 
