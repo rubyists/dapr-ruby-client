@@ -7,6 +7,16 @@
 :warning-caption: :warning:
 endif::[]
 :dapr-building-block: https://docs.dapr.io/concepts/building-blocks-concept/[Dapr Building Block]
+:pubsub-block: https://docs.dapr.io/developing-applications/building-blocks/pubsub/pubsub-overview/[Dapr Pub/Sub Building Block]
+:state-block: https://docs.dapr.io/developing-applications/building-blocks/state-management/state-management-overview/[Dapr State Management Building Block]
+:actors-block: https://docs.dapr.io/developing-applications/building-blocks/actors/actors-overview/[Dapr Actor Building Block]
+:binding-block: https://docs.dapr.io/developing-applications/building-blocks/bindings/bindings-overview/[Dapr Binding Building Block]
+:secret-block: https://docs.dapr.io/developing-applications/building-blocks/secrets/secrets-overview/[Dapr Secret Building Block]
+:configuration-block: https://docs.dapr.io/developing-applications/building-blocks/configuration/configuration-api-overview/[Dapr Configuration Building Block]
+:distributed-lock-block: https://docs.dapr.io/developing-applications/building-blocks/distributed-lock/distributed-lock-api-overview/[Dapr Distributed Lock Building Block]
+:workflow-block: https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/[Dapr Workflow Building Block]
+:cryptography-block: https://docs.dapr.io/developing-applications/building-blocks/cryptography/cryptography-overview/[Dapr Cryptography Building Block]
+
 
 == Overview
 
@@ -34,7 +44,11 @@ is a more opinionated and higher-level abstraction.
 Each {dapr-building-block} is exposed as a class under the `Rubyists::Dapr::Client` or
 `Rubyists::Dapr::Service` namespace.
 
-=== Publish a message
+=== Pub/Sub
+
+Implementation of {pubsub-block}
+
+==== Publish a message
 
 [source,ruby]
 ----
@@ -47,7 +61,7 @@ publisher.publish('topic-name', { message: 'Hello, Dapr!', from: 'Ruby' })
 <2> Create a new publisher for the `pubsub-name` pubsub component. This component must be defined in the Dapr runtime.
 <3> Publish a message to the `topic-name` topic.
 
-=== Subscribe to topics
+==== Subscribe to topics
 
 Subscriptions in Dapr work a little different than you may be used to. Instead of subscribing to a topic
 then looping through consumed messages, you define a fully-fledged service that Dapr will
@@ -74,6 +88,38 @@ TIP: Multiple topics can be subscribed to simultaneously by passing an array of 
 +
 <4> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
 <5> Start the subscriber. This will block the current thread and call the handler for each message received.
+
+=== State Management
+
+Implementation of {state-block}
+
+=== Actors
+
+Implementation of {actors-block}
+
+=== Bindings
+
+Implementation of {binding-block}
+
+=== Secrets
+
+Implementation of {secret-block}
+
+=== Configuration
+
+Implementation of {configuration-block}
+
+=== Distributed Lock
+
+Implementation of {distributed-lock-block}
+
+=== Workflow
+
+Implementation of {workflow-block}
+
+=== Cryptography
+
+Implementation of {cryptography-block}
 
 == Development
 
