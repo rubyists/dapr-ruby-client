@@ -65,7 +65,7 @@ publisher.publish('topic-name', { message: 'Hello, Dapr!', from: 'Ruby' })
 
 Subscriptions in Dapr work a little different than you may be used to. Instead of subscribing to a topic
 then looping through consumed messages, you define a fully-fledged service that Dapr will
-send each message to in the topic(s) that you specify. This unique appreach allows you to
+send each message to in the topic(s) that you specify. This unique approach allows you to
 focus on the business logic of your service, rather than the plumbing of message consumption.
 
 [source,ruby]
