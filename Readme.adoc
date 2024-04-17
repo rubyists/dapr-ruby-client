@@ -64,14 +64,16 @@ sub = Rubyists::Dapr::Service::Subscriber.new(pubsub_name:, topics:, handler:) <
 sub.start! <5>
 ----
 <1> Define a handler that will be called for each message received. `event` will be a `CloudEvents::Event` instance.
++
+NOTE: The handler can be anything that responds to `#call`, such as a lambda, proc, or instance. Sky's the limit! (Dependency injection, anyone?)
++
 <2> The name of the Dapr pubsub component this subscriber will utilize.
+<3> The name of the topic(s) to subscribe to.
 +
 TIP: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
 +
-<3> The name of the topic(s) to subscribe to.
 <4> Create a new subscriber for the `pubsub` pubsub component, subscribing to the `TOPIC-A` topic.
 <5> Start the subscriber. This will block the current thread and call the handler for each message received.
-
 
 == Development
 
