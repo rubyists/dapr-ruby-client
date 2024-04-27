@@ -9,4 +9,9 @@ require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new
 
-task default: %i[test rubocop]
+desc 'Remove Gemfile.lock'
+task :wipelock do
+  system 'rm -f Gemfile.lock'
+end
+
+task default: %i[test rubocop wipelock]
