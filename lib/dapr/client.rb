@@ -16,7 +16,7 @@ module Rubyists
       DAPR_STUB = ::Dapr::Proto::Runtime::V1::Dapr::Stub
 
       def self.client
-        return DummyClient.singleton if DAPR_PORT.nil?
+        return DummyClient.new if DAPR_PORT.nil?
 
         logger.info "Creating Dapr client for #{DAPR_URI}:#{DAPR_PORT}"
         DAPR_STUB.new("#{DAPR_URI}:#{DAPR_PORT}", :this_channel_is_insecure)
@@ -37,10 +37,6 @@ module Rubyists
       # Make a dummy client that responds to every method with a warning and the called method signature
       class DummyClient
         include SemanticLogger::Loggable
-
-        def self.singleton
-          @singleton ||= new
-        end
 
         def initialize(*_)
           logger.warn 'Dapr is not available (no DAPR_GRPC_PORT), using dummy client'

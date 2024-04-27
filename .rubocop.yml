@@ -1,7 +1,7 @@
 ---
 require:
   - rubocop-rake
-  - rubocop-rspec
+  - rubocop-minitest
 
 AllCops:
   TargetRubyVersion: 3.2.0
