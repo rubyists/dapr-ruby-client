@@ -12,7 +12,6 @@ GEM
     concurrent-ruby (1.2.3)
     dapr-ruby (0.4.2)
       google-protobuf
-    diff-lcs (1.5.1)
     google-protobuf (4.26.1)
       rake (>= 13)
     google-protobuf (4.26.1-aarch64-linux)
@@ -27,6 +26,7 @@ GEM
       rake (>= 13)
     json (2.7.2)
     language_server-protocol (3.17.0.3)
+    minitest (5.22.3)
     parallel (1.24.0)
     parser (3.3.0.5)
       ast (~> 2.4.1)
@@ -36,19 +36,6 @@ GEM
     rake (13.2.1)
     regexp_parser (2.9.0)
     rexml (3.2.6)
-    rspec (3.13.0)
-      rspec-core (~> 3.13.0)
-      rspec-expectations (~> 3.13.0)
-      rspec-mocks (~> 3.13.0)
-    rspec-core (3.13.0)
-      rspec-support (~> 3.13.0)
-    rspec-expectations (3.13.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-mocks (3.13.0)
-      diff-lcs (>= 1.2.0, < 2.0)
-      rspec-support (~> 3.13.0)
-    rspec-support (3.13.1)
     rubocop (1.63.1)
       json (~> 2.3)
       language_server-protocol (>= 3.17.0)
@@ -62,22 +49,15 @@ GEM
       unicode-display_width (>= 2.4.0, < 3.0)
     rubocop-ast (1.31.2)
       parser (>= 3.3.0.4)
-    rubocop-capybara (2.20.0)
-      rubocop (~> 1.41)
-    rubocop-factory_bot (2.25.1)
-      rubocop (~> 1.41)
+    rubocop-minitest (0.35.0)
+      rubocop (>= 1.61, < 2.0)
+      rubocop-ast (>= 1.31.1, < 2.0)
     rubocop-rake (0.6.0)
       rubocop (~> 1.0)
-    rubocop-rspec (2.29.1)
-      rubocop (~> 1.40)
-      rubocop-capybara (~> 2.17)
-      rubocop-factory_bot (~> 2.22)
-      rubocop-rspec_rails (~> 2.28)
-    rubocop-rspec_rails (2.28.3)
-      rubocop (~> 1.40)
     ruby-progressbar (1.13.0)
     semantic_logger (4.15.0)
       concurrent-ruby (~> 1.0)
+    shoulda-context (2.0.0)
     unicode-display_width (2.5.0)
 
 PLATFORMS
@@ -90,11 +70,12 @@ PLATFORMS
 
 DEPENDENCIES
   dapr!
+  minitest (~> 5.22)
   rake (~> 13.0)
-  rspec (~> 3.0)
   rubocop (~> 1.21)
+  rubocop-minitest
   rubocop-rake
-  rubocop-rspec
+  shoulda-context (~> 2)
 
 BUNDLED WITH
    2.5.9
