@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'test_helper'
+require_relative 'test_helper'
 
 # Tests for the Dapr module
 class TestDapr < Minitest::Test
@@ -10,3 +10,6 @@ class TestDapr < Minitest::Test
     end
   end
 end
+
+# Load all the tests
+Pathname(__dir__).join('dapr').glob('test_*.rb').each { |r| require_relative r }

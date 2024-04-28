@@ -9,9 +9,8 @@ require 'rubocop/rake_task'
 
 RuboCop::RakeTask.new
 
-desc 'Remove Gemfile.lock'
-task :wipelock do
-  system 'rm -f Gemfile.lock'
-end
+require 'pathname'
+Pathname.glob('tasks/*.rake').each { |r| load r }
 
-task default: %i[test rubocop wipelock]
+# Coverage and wipelock both come from tasks/
+task default: %i[coverage rubocop wipelock]
