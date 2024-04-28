@@ -6,10 +6,14 @@ source 'https://rubygems.org'
 gemspec
 
 group(:development, :test) do
-  gem 'minitest', '~> 5.22'
-  gem 'rake', '~> 13.0'
-  gem 'rubocop', '~> 1.21'
+  gem 'bigdecimal'
+  gem 'minitest'
+  gem 'pry-byebug'
+  gem 'rake'
+  gem 'rubocop'
   gem 'rubocop-minitest'
   gem 'rubocop-rake'
-  gem 'shoulda-context', '~> 2'
+  gem 'shoulda-context'
+  gem 'simplecov'
+  gem 'simplecov-json'
 end

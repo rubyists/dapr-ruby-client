@@ -10,7 +10,11 @@ Gemfile.lock
 /pkg/
 
 # Test artifacts
-/coverage/
+/coverage/index.html
+/coverage/assets
+/coverage/.last_run.json
+/coverage/.resultset.json
+/coverage/.resultset.json.lock
 
 # Documentation artifacts
 /.yardoc
