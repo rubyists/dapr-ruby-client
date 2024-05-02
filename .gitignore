@@ -8,6 +8,7 @@
 Gemfile.lock
 /.bundle/
 /pkg/
+*.gem
 
 # Test artifacts
 /coverage/index.html

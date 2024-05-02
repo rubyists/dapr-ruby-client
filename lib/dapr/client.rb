@@ -42,12 +42,12 @@ module Rubyists
           logger.warn 'Dapr is not available (no DAPR_GRPC_PORT), using dummy client'
         end
 
-        def method_missing(method_name, *)
-          define_method(method_name) do |*args, &block|
+        def method_missing(method_name, *, &)
+          self.class.define_method(method_name) do |*args, &block|
             logger.warn 'Dapr is not available (no DAPR_GRPC_PORT), using dummy client'
             { method_name:, args:, block: }
           end
-          send(method_name, *args, &block)
+          send(method_name, *, &)
         end
 
         def respond_to_missing?(_method_name, _include_private = false)
