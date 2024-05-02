@@ -12,4 +12,4 @@ class TestDapr < Minitest::Test
 end
 
 # Load all the tests
-Pathname(__dir__).join('dapr').glob('test_*.rb').each { |r| require_relative r }
+Pathname(__dir__).join('dapr').glob('**/test_*.rb').each { |r| require_relative r }

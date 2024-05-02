@@ -1,0 +1,48 @@
+ARG ALPINE_VERSION=3.19
+ARG RUBY_VERSION=3.3.1
+FROM docker.io/ruby:$RUBY_VERSION-alpine$ALPINE_VERSION AS build-env
+
+# Setting env up
+ARG APP_ROOT=/app
+ARG JOBS=8
+ENV LANG C.UTF-8
+ENV BUNDLE_SILENCE_ROOT_WARNING=1
+
+#Install dependencies needed for compilation
+RUN apk --no-cache add curl ruby-dev build-base git
+
+WORKDIR $APP_ROOT
+
+RUN mkdir -p lib/dapr
+COPY lib/dapr/version.rb lib/dapr/version.rb
+COPY Gemfile dapr.gemspec .
+RUN bundle config set build.nokogiri --use-system-libraries && \
+    bundle config set without  'test development assets' && \
+    bundle install --jobs 8 && \
+    mkdir -p /src && \
+    cd /src && \
+    curl -L https://github.com/leahneukirchen/snooze/archive/refs/tags/v0.5.tar.gz > snooze.tar.gz && \
+    tar xvf snooze.tar.gz && \
+    cd snooze-0.5 && \
+    make && \
+    install -m 0755 snooze /bin/snooze && \
+    cd / && \
+    rm -rf /src
+
+# Remove folders not needed in resulting image
+RUN rm -rf node_modules tmp/cache app/assets vendor/assets spec
+
+############### Build step done ###############
+FROM docker.io/ruby:3.3.0-alpine3.19
+ARG ALPINE_VERSION=3.19
+ARG RUBY_VERSION=3.3.1
+ARG APP_ROOT=/app
+
+WORKDIR $APP_ROOT
+
+# install packages
+RUN apk --update --no-cache add coreutils curl bash runit
+COPY --from=build-env /usr/local/bundle/ /usr/local/bundle/
+COPY --from=build-env /bin/snooze /bin/snooze
+
+CMD ['bundle', 'exec', 'puma', '-C', 'config/puma.rb']
