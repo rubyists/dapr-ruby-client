@@ -12,4 +12,7 @@ end
 
 require 'minitest/autorun'
 require 'shoulda/context'
+require 'semantic_logger'
+Minitest::Test.include SemanticLogger::Test::Minitest
+
 require_relative '../lib/dapr'
