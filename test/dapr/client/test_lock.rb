@@ -7,11 +7,21 @@ class TestDaprLock < Minitest::Test
   require Rubyists::Dapr::LIBROOT / :client / :lock
   DummyClient = Rubyists::Dapr::Client::DummyClient
 
+  def dress_for_success!
+    DummyClient.define_method(:try_lock) do |*_args, &_block|
+      Dapr::Proto::Runtime::V1::TryLockResponse.new(success: true)
+    end
+  end
+
+  def dress_for_failure!
+    DummyClient.define_method(:try_lock) do |*_args, &_block|
+      Dapr::Proto::Runtime::V1::TryLockResponse.new(success: false)
+    end
+  end
+
   context 'Locking' do
     should 'Be able to acquire a lock' do
-      DummyClient.define_method(:try_lock) do |*_args, &_block|
-        Dapr::Proto::Runtime::V1::TryLockResponse.new(success: true)
-      end
+      dress_for_success!
       messages = semantic_logger_events(Rubyists::Dapr::Client::Lock) do
         lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
 
@@ -25,9 +35,7 @@ class TestDaprLock < Minitest::Test
     end
 
     should 'Fail acquire a lock' do
-      DummyClient.define_method(:try_lock) do |*_args, &_block|
-        Dapr::Proto::Runtime::V1::TryLockResponse.new(success: false)
-      end
+      dress_for_failure!
       messages = semantic_logger_events(Rubyists::Dapr::Client::Lock) do
         lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
 
@@ -41,9 +49,7 @@ class TestDaprLock < Minitest::Test
 
   context 'Unlocking' do
     should 'Be able to unlock a lock' do
-      DummyClient.define_method(:try_lock) do |*_args, &_block|
-        Dapr::Proto::Runtime::V1::TryLockResponse.new(success: true)
-      end
+      dress_for_success!
       DummyClient.define_method(:unlock) do |*_args, &_block|
         Dapr::Proto::Runtime::V1::UnlockResponse.new(status: 0)
       end
@@ -58,15 +64,18 @@ class TestDaprLock < Minitest::Test
     end
 
     should 'Fail to unlock a lock' do
-      DummyClient.define_method(:try_lock) do |*_args, &_block|
-        Dapr::Proto::Runtime::V1::TryLockResponse.new(success: true)
-      end
+      dress_for_success!
       DummyClient.define_method(:unlock) do |*_args, &_block|
         Dapr::Proto::Runtime::V1::UnlockResponse.new(status: 1)
       end
-      lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
+      messages = semantic_logger_events(Rubyists::Dapr::Client::Lock) do
+        lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
 
-      refute lock.unlock!
+        refute lock.unlock!
+      end
+
+      assert_equal 2, messages.size
+      assert_semantic_logger_event messages.last, level: :warn, message: 'Unlock Failed!'
     end
   end
 end
