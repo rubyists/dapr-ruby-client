@@ -77,17 +77,19 @@ class TestDaprLock < Minitest::Test
       assert_semantic_logger_event messages.last, level: :info, message: 'Acquired lock'
     end
 
-    should 'Fail to unlock a lock' do
-      undress! status: 1
-      messages = semantic_logger_events(Rubyists::Dapr::Client::Lock) do
-        lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
+    should 'Fail to unlock a lock for _reasons_' do
+      %i[LOCK_DOES_NOT_EXIST LOCK_BELONGS_TO_OTHERS INTERNAL_ERROR].each_with_index do |status, i|
+        undress! status: i + 1
+        messages = semantic_logger_events(Rubyists::Dapr::Client::Lock) do
+          lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
 
-        refute lock.unlock!
+          refute lock.unlock!
+        end
+
+        assert_equal 2, messages.size
+        assert_semantic_logger_event messages.last, level: :warn, message: 'Unlock Failed!'
+        assert_equal status, messages.last.payload[:status]
       end
-
-      assert_equal 2, messages.size
-      assert_semantic_logger_event messages.last, level: :warn, message: 'Unlock Failed!'
-      assert_equal :LOCK_DOES_NOT_EXIST, messages.last.payload[:status]
     end
   end
 end
