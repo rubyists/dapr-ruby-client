@@ -19,6 +19,12 @@ class TestDaprLock < Minitest::Test
     end
   end
 
+  def undress_for_failure!(status: 1)
+    DummyClient.define_method(:unlock) do |*_args, &_block|
+      Dapr::Proto::Runtime::V1::UnlockResponse.new(status:)
+    end
+  end
+
   context 'Locking' do
     should 'Be able to acquire a lock' do
       dress_for_success!
@@ -65,9 +71,7 @@ class TestDaprLock < Minitest::Test
 
     should 'Fail to unlock a lock' do
       dress_for_success!
-      DummyClient.define_method(:unlock) do |*_args, &_block|
-        Dapr::Proto::Runtime::V1::UnlockResponse.new(status: 1)
-      end
+      undress_for_failure!
       messages = semantic_logger_events(Rubyists::Dapr::Client::Lock) do
         lock = Rubyists::Dapr::Client::Lock.acquire('test-lock')
 
@@ -76,6 +80,7 @@ class TestDaprLock < Minitest::Test
 
       assert_equal 2, messages.size
       assert_semantic_logger_event messages.last, level: :warn, message: 'Unlock Failed!'
+      assert_equal :LOCK_DOES_NOT_EXIST, messages.last.payload[:status]
     end
   end
 end
