@@ -7,19 +7,29 @@ class TestDaprLock < Minitest::Test
   require Rubyists::Dapr::LIBROOT / :client / :lock
   DummyClient = Rubyists::Dapr::Client::DummyClient
 
+  # Helper for when we want a lock acquisition to succeed
   def dress_for_success!
     DummyClient.define_method(:try_lock) do |*_args, &_block|
       Dapr::Proto::Runtime::V1::TryLockResponse.new(success: true)
     end
   end
 
+  # Helper for when we want a lock acquisition to fail
   def dress_for_failure!
     DummyClient.define_method(:try_lock) do |*_args, &_block|
       Dapr::Proto::Runtime::V1::TryLockResponse.new(success: false)
     end
   end
 
+  # Helper for how to respond to an unlock request
+  # 0 = success
+  # 1 = lock does not exist
+  # 2 = lock is not owned by the caller
+  # 3 = internal/unknown error
+  #
+  # @param status [Integer] The status to return to the unlock request
   def undress!(status: 0)
+    # First we'll need to set up the lock method to succeed, so we have a lock to unlock
     dress_for_success!
     DummyClient.define_method(:unlock) do |*_args, &_block|
       Dapr::Proto::Runtime::V1::UnlockResponse.new(status:)
