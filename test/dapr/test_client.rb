@@ -51,6 +51,7 @@ class TestDaprClient < Minitest::Test
     should 'Respond true to respond_to_missing?' do
       dummy = Rubyists::Dapr::Client::DummyClient.new
 
+      assert_respond_to(dummy, :wtf?)
       assert_respond_to(dummy, :how_do_you)
     end
   end
