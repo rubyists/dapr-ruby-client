@@ -17,6 +17,7 @@ module Rubyists
 
         # The proto class for the TryLock request message
         LockRequest = ::Dapr::Proto::Runtime::V1::TryLockRequest
+        # The proto class for the Unlock request message
         UnlockRequest = ::Dapr::Proto::Runtime::V1::UnlockRequest
         DEFAULT_STORE_NAME = 'locker'
 
@@ -25,11 +26,10 @@ module Rubyists
           lock.lock!(ttl:)
         end
 
-        # Initialize the publisher
-        # @param name [String] The name of the pubsub component in Dapr
-        # @param serialization [Symbol] The serialization format to use. Defaults to :to_json
-        #                               this can be :to_json, :to_dapr, or any object that responds to :wrap.
-        #                               If it responds to :wrap, it will be called with the message to be sent.
+        # Initialize the Lock
+        #
+        # @param store_name [String]  The name of the Dapr lock store component to use
+        # @param resource_id [String] The unique ID of the resource to lock
         def initialize(store_name, resource_id)
           @store_name = store_name
           @resource_id = resource_id
@@ -60,10 +60,7 @@ module Rubyists
 
         # @return [String] The unique ID of the lock owner
         def lock_owner
-          return @lock_owner if defined?(@lock_owner)
-
-          @lock_owner = SecureRandom.uuid
-          @lock_owner
+          @lock_owner ||= SecureRandom.uuid
         end
       end
     end
