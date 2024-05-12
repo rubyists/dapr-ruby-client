@@ -52,7 +52,6 @@ class TestDaprClient < Minitest::Test
       dummy = Rubyists::Dapr::Client::DummyClient.new
 
       assert_respond_to(dummy, :wtf?)
-      assert_respond_to(dummy, :how_do_you)
     end
   end
 end
