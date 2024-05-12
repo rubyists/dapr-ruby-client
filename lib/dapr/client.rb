@@ -15,11 +15,11 @@ module Rubyists
       DAPR_URI = ENV.fetch('DAPR_GRPC_HOST', 'localhost')
       DAPR_STUB = ::Dapr::Proto::Runtime::V1::Dapr::Stub
 
-      def self.client
-        return DummyClient.new if DAPR_PORT.nil?
+      def self.client(dapr_port: DAPR_PORT, dapr_uri: DAPR_URI)
+        return DummyClient.new if dapr_port.nil?
 
-        logger.info "Creating Dapr client for #{DAPR_URI}:#{DAPR_PORT}"
-        DAPR_STUB.new("#{DAPR_URI}:#{DAPR_PORT}", :this_channel_is_insecure)
+        logger.info "Creating Dapr client for #{dapr_uri}:#{dapr_port}"
+        DAPR_STUB.new("#{dapr_uri}:#{dapr_port}", :this_channel_is_insecure)
       end
 
       def self.singleton

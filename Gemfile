@@ -5,10 +5,10 @@ source 'https://rubygems.org'
 # Specify your gem's dependencies in dapr.gemspec
 gemspec
 
+gem 'bigdecimal'
 gem 'grpc', force_ruby_platform: true
 
 group(:development, :test) do
-  gem 'bigdecimal'
   gem 'minitest'
   gem 'pry-byebug'
   gem 'rake'

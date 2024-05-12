@@ -26,6 +26,16 @@ class TestDaprClient < Minitest::Test
 
       refute_same c1, c2
     end
+
+    should 'Log a new client instance' do
+      messages = semantic_logger_events(Rubyists::Dapr::Client) do
+        client = Rubyists::Dapr::Client.client(dapr_port: 55_555)
+
+        assert client
+      end
+
+      assert_equal 1, messages.size
+    end
   end
 
   context 'Dapr::Client::DummyClient' do
@@ -41,7 +51,7 @@ class TestDaprClient < Minitest::Test
     should 'Respond true to respond_to_missing?' do
       dummy = Rubyists::Dapr::Client::DummyClient.new
 
-      assert_respond_to(dummy, :how_do_you)
+      assert_respond_to(dummy, :wtf?)
     end
   end
 end
