@@ -18,7 +18,7 @@ module Rubyists
         ConfigurationRequest = ::Dapr::Proto::Runtime::V1::GetConfigurationRequest
         # The proto class for the GetConfiguration response
         ConfigurationResponse = ::Dapr::Proto::Runtime::V1::GetConfigurationResponse
-        DEFAULT_STORE_NAME = 'payments-config'
+        DEFAULT_STORE_NAME = 'dapr-config'
 
         def self.get(keys = [], store_name: DEFAULT_STORE_NAME, metadata: {})
           configuration = new(store_name, keys:, metadata:)
@@ -37,7 +37,7 @@ module Rubyists
         end
 
         def get
-          logger.debug('Getting configuration', keys:)
+          logger.debug('Getting configuration', keys:, store_name:)
           singleton.get_configuration(ConfigurationRequest.new(store_name:, keys:, metadata:))
         end
       end
