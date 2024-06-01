@@ -1,0 +1,70 @@
+---
+name: Release
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      force:
+        description: 'Force publish the gem'
+        required: false
+        type: boolean
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    name: Create a release
+    steps:
+      -
+        uses: actions/checkout@v4
+        id: git-checkout
+        with:
+          fetch-tags: true
+      -
+        uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+          token: ${{ secrets.PPDEPLOY_REPO_TOKEN }}
+      -
+        if: ${{ steps.release.outputs.release_created || github.event.inputs.force }}
+        name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.1
+          bundler-cache: true
+      -
+        if: ${{ steps.release.outputs.release_created || github.event.inputs.force }}
+        name: Publish the gem
+        env:
+          FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false' }}
+          GEM_NAME: event_router
+          GIT_NAME: Event Router Automation
+          GIT_EMAIL: event_router@prizepicks.com
+          GIT_ORG: myprizepicks
+        run: |
+          which gum || true
+          release() {
+            local gem token
+            token=${{ secrets.GITHUB_TOKEN }}
+            gem=$1
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_NAME"
+            bundle config https://rubygems.pkg.github.com/$GIT_ORG "${token}:${token}"
+            mkdir -p ~/.gem
+            printf '%s\n:github: Bearer %s\n' '---' "$token" > ~/.gem/credentials
+            chmod 600 ~/.gem/credentials
+            printf 'Releasing gem %s\n' "$gem"
+            bundle exec gem build
+            bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
+            # bundle exec gem push -k rubygems --host https://rubygems.org $GEM_NAME-$gem_version.gem
+          }
+          version=$(<.version.txt)
+          printf 'Version for *%s* gem is: %s\n' "$GEM_NAME" "$version"
+          gem_name="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
+          [ "$FORCE_PUBLISH" = "true" ] && printf 'Forcing release of %s\n' "$gem_name"
+          release "$gem_name"
+        shell: bash

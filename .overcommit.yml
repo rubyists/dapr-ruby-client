@@ -54,7 +54,7 @@ PreCommit:
     enabled: false
   ForbiddenBranches:
     enabled: true
-    branch_patterns: [ 'main', 'master' ]
+    branch_patterns: ['main', 'master']
   GinkgoFocus:
     enabled: false
   GoFmt:
@@ -205,7 +205,7 @@ PreCommit:
     enabled: false
 CommitMsg:
   CapitalizedSubject:
-    enabled: true
+    enabled: false
   EmptyMessage:
     enabled: true
   GerritChangeId:
@@ -213,15 +213,23 @@ CommitMsg:
   HardTabs:
     enabled: false
   MessageFormat:
-    enabled: false
+    enabled: true
+    expected_pattern_message: |-
+      /^(?<type>[a-z]+)(?<scope>\(\w+\))?!?: (?<subject>[A-Z].*)$/
+      The scope and ! are optional see
+      https://www.conventionalcommits.org/en/v1.0.0/#specification
+      Subject must start with a capital letter
+    pattern: '^(?<type>[a-z]+)(?<scope>\(\w+\))?!?: (?<subject>[A-Z].*)$'
+    sample_message: 'docs(readme): ISSUE-10 - Correct typo'
   RussianNovel:
-    enabled: false
+    enabled: true
   SingleLineSubject:
     enabled: true
   SpellCheck:
     enabled: false
   TextWidth:
     enabled: true
+    max_subject_width: 72
   TrailingPeriod:
     enabled: true
 PostCheckout:
