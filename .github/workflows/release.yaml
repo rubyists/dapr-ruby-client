@@ -41,10 +41,11 @@ jobs:
         name: Publish the gem
         env:
           FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false' }}
-          GEM_NAME: event_router
-          GIT_NAME: Event Router Automation
-          GIT_EMAIL: event_router@prizepicks.com
-          GIT_ORG: myprizepicks
+          GEM_NAME: dapr
+          GIT_NAME: Dapr Automation
+          GIT_EMAIL: dapr@rubyists.com
+          GIT_ORG: rubyists
+          RUBYGEMS_TOKEN: ${{ secrets.RUBYGEMS_TOKEN }}
         run: |
           which gum || true
           release() {
@@ -56,11 +57,12 @@ jobs:
             bundle config https://rubygems.pkg.github.com/$GIT_ORG "${token}:${token}"
             mkdir -p ~/.gem
             printf '%s\n:github: Bearer %s\n' '---' "$token" > ~/.gem/credentials
+            printf '%s\n:rubygems: Bearer %s\n' '---' "$RUBYGEMS_TOKEN" >> ~/.gem/credentials
             chmod 600 ~/.gem/credentials
             printf 'Releasing gem %s\n' "$gem"
             bundle exec gem build
             bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
-            # bundle exec gem push -k rubygems --host https://rubygems.org $GEM_NAME-$gem_version.gem
+            bundle exec gem push -k rubygems --host https://rubygems.org "$gem"
           }
           version=$(<.version.txt)
           printf 'Version for *%s* gem is: %s\n' "$GEM_NAME" "$version"
