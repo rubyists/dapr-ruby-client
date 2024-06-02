@@ -32,7 +32,7 @@ jobs:
         with:
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
-          token: ${{ secrets.PPDEPLOY_REPO_TOKEN }}
+          token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
       -
         if: >
           steps.release.outputs.release_created || github.event.inputs.force
