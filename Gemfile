@@ -10,6 +10,7 @@ gem 'grpc', force_ruby_platform: true
 
 group(:development, :test) do
   gem 'minitest'
+  gem 'overcommit'
   gem 'pry-byebug'
   gem 'rake'
   gem 'rubocop'
