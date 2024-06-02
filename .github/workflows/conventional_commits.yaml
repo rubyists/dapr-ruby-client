@@ -15,6 +15,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: webiny/action-conventional-commits@v1.3.0
+        name: Validate Commit Subjects
         with:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           # All of the Angular commit types are allowed by default.
