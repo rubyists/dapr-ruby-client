@@ -6,20 +6,14 @@ on:  # yamllint disable-line rule:truthy
     branches:
       - main
   workflow_dispatch:
-    inputs:
-      force:
-        description: 'Force publish the gem'
-        required: false
-        type: boolean
+  workflow_call:
 
 jobs:
   validate_ruby:
-    if: ${{ ! github.event.inputs.force }}
     name: Ruby Tests
     uses: ./.github/workflows/main.yml
 
   validate_codeql:
-    if: ${{ ! github.event.inputs.force }}
     name: CodeQL Analysis
     uses: ./.github/workflows/main.yml
 
@@ -42,14 +36,6 @@ jobs:
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
-      -
-        if: >
-          steps.release.outputs.release_created || github.event.inputs.force
-        name: Set up Ruby
-        uses: ruby/setup-ruby@v1
-        with:
-          ruby-version: 3.3.1
-          bundler-cache: true
 
   gem:
     needs: release

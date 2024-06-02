@@ -1,4 +1,5 @@
 ---
+name: Publish Ruby Gem
 on:  # yamllint disable-line rule:truthy
   workflow_call:
   workflow_dispatch:
@@ -7,13 +8,18 @@ on:  # yamllint disable-line rule:truthy
         description: 'Gem version to release'
         required: false
         type: string
-
 jobs:
   publish_gem:
     name: Publish the gem
     needs: release
     runs-on: ubuntu-latest
     steps:
+      -
+        name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.1
+          bundler-cache: true
       -
         name: Publish to rubygems and github packages
         env:
@@ -42,6 +48,7 @@ jobs:
             bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
             bundle exec gem push -k rubygems --host https://rubygems.org "$gem"
           }
+          ls -a
           version=$(<.version.txt)
           printf 'Version for *%s* gem is: %s\n' "$GEM_NAME" "$version"
           gem_name="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
