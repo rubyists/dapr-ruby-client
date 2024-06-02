@@ -13,13 +13,22 @@ on:  # yamllint disable-line rule:truthy
         type: boolean
 
 jobs:
-  validate:
+  validate_ruby:
     if: ${{ ! github.event.inputs.force }}
+    name: Ruby Tests
     uses: ./.github/workflows/main.yml
-  publish:
-    needs: validate
-    runs-on: ubuntu-latest
+
+  validate_codeql:
+    if: ${{ ! github.event.inputs.force }}
+    name: CodeQL Analysis
+    uses: ./.github/workflows/main.yml
+
+  release:
+    needs: [validate_ruby, validate_codeql]
     name: Create a release
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
     steps:
       -
         uses: actions/checkout@v4
@@ -41,9 +50,15 @@ jobs:
         with:
           ruby-version: 3.3.1
           bundler-cache: true
+
+  publish_gem:
+    if: >
+      needs.release.outputs.release_created || github.event.inputs.force
+    name: Publish the gem
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
       -
-        if: >
-          steps.release.outputs.release_created || github.event.inputs.force
         name: Publish the gem
         env:
           FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false' }}
