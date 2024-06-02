@@ -39,5 +39,5 @@ jobs:
 
   gem:
     needs: release
-    name: Publish the gem
+    name: Build and publish gem
     uses: ./.github/workflows/gem.yaml
