@@ -46,7 +46,7 @@ jobs:
           steps.release.outputs.release_created || github.event.inputs.force
         name: Publish the gem
         env:
-          FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false'
+          FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false' }}
           GEM_NAME: dapr
           GIT_NAME: Dapr Automation
           GIT_EMAIL: dapr@rubyists.com
