@@ -5,15 +5,10 @@
 # You may wish to alter this file to override the set of languages analyzed,
 # or to provide custom queries or build logic.
 #
-name: CodeQL
+name: CodeQL Pull Request Analysis
 on:
-  push:
-    branches:
-      - main
   pull_request:
-    # The branches below must be a subset of the branches above
-    branches:
-      - main
+  workflow_dispatch:
   schedule:
     - cron: 44 20 * * 0
 jobs:
@@ -25,7 +20,7 @@ jobs:
       contents: read
       security-events: write
     strategy:
-      fail-fast: false
+      fail-fast: true
       matrix:
         language:
           - ruby
