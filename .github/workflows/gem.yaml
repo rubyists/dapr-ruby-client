@@ -1,0 +1,51 @@
+---
+on:  # yamllint disable-line rule:truthy
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      gem_version:
+        description: 'Gem version to release'
+        required: false
+        type: string
+
+jobs:
+  publish_gem:
+    name: Publish the gem
+    needs: release
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Publish to rubygems and github packages
+        env:
+          FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false' }}
+          GEM_NAME: dapr
+          GIT_NAME: Dapr Automation
+          GIT_EMAIL: dapr@rubyists.com
+          GIT_ORG: rubyists
+          RUBYGEMS_TOKEN: ${{ secrets.RUBYGEMS_TOKEN }}
+        # yamllint disable rule:line-length
+        run: |
+          which gum || true
+          release() {
+            local gem token
+            token=${{ secrets.GITHUB_TOKEN }}
+            gem=$1
+            git config --global user.email "$GIT_EMAIL"
+            git config --global user.name "$GIT_NAME"
+            bundle config https://rubygems.pkg.github.com/$GIT_ORG "${token}:${token}"
+            mkdir -p ~/.gem
+            printf '%s\n:github: Bearer %s\n' '---' "$token" > ~/.gem/credentials
+            printf '%s\n:rubygems: Bearer %s\n' '---' "$RUBYGEMS_TOKEN" >> ~/.gem/credentials
+            chmod 600 ~/.gem/credentials
+            printf 'Releasing gem %s\n' "$gem"
+            bundle exec gem build
+            bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
+            bundle exec gem push -k rubygems --host https://rubygems.org "$gem"
+          }
+          version=$(<.version.txt)
+          printf 'Version for *%s* gem is: %s\n' "$GEM_NAME" "$version"
+          gem_name="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
+          [ "$FORCE_PUBLISH" = "true" ] && printf 'Forcing release of %s\n' "$gem_name"
+          release "$gem_name"
+        # yamllint enable rule:line-length
+        shell: bash
