@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.2](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.1...v0.2.2) (2024-06-02)
+
+
+### Bug Fixes
+
+* It helps to check out the code before building a gem ([#24](https://github.com/rubyists/dapr-ruby-client/issues/24)) ([8bfd14e](https://github.com/rubyists/dapr-ruby-client/commit/8bfd14eee9b548916afe028fc19a4c1a6088ec78))
+
 ## [0.2.1](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.0...v0.2.1) (2024-06-02)
 
 
