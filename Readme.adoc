@@ -99,7 +99,7 @@ sub.start! <5>
 +
 NOTE: The handler can be anything that responds to `#call`, such as a lambda, proc, or instance. Sky's the limit! (Dependency injection, anyone?)
 +
-<2> The name of the Dapr pubsub component this subscriber will utilize. 
+<2> The name of the Dapr pubsub component this subscriber will utilize.
 <3> The name of the topic(s) to subscribe to.
 +
 TIP: Multiple topics can be subscribed to simultaneously by passing an array of topic names to the `topics` argument.
@@ -148,3 +148,13 @@ To install this gem on your local machine, run `bundle exec rake install`. To re
 == Contributing
 
 Bug reports and pull requests are welcome on GitHub at https://github.com/rubyists/dapr.
+
+=== Conventional Commits
+
+This project uses Conventional Commits for commit messages. Please follow the guidelines at https://www.conventionalcommits.org/en/v1.0.0/[conventionalcommits.org].
+
+=== Overcommit
+
+This project uses https://github.com/sds/overcommit[overcommit] to enforce repository policies. Please ensure you have it installed and configured before contributing.
+
+tl;dr;: `overcommit --install && overcommit --sign`
