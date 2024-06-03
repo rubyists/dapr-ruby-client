@@ -15,7 +15,7 @@ jobs:
 
   validate_codeql:
     name: CodeQL Analysis
-    uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/codeql.yml
 
   release:
     needs: [validate_ruby, validate_codeql]
