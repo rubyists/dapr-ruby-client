@@ -1,5 +1,14 @@
 ## [Unreleased]
 
+## [0.2.11](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.10...v0.2.11) (2024-06-03)
+
+
+### Bug Fixes
+
+* **build:** Lowers concurrency for container jobs to 1 ([#59](https://github.com/rubyists/dapr-ruby-client/issues/59)) ([70c1c56](https://github.com/rubyists/dapr-ruby-client/commit/70c1c56990dbf4a87f8088b40483a213a674f793))
+* Use secret references in matrix values ([#61](https://github.com/rubyists/dapr-ruby-client/issues/61)) ([9f45785](https://github.com/rubyists/dapr-ruby-client/commit/9f4578546cc77da79c5548347bee1b2ed6e790ec))
+* Uses correct rubygems secret ([#60](https://github.com/rubyists/dapr-ruby-client/issues/60)) ([5de5ff4](https://github.com/rubyists/dapr-ruby-client/commit/5de5ff44bf0b06ee1652616f58c29a411ecb4e18))
+
 ## [0.2.10](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.9...v0.2.10) (2024-06-03)
 
 
