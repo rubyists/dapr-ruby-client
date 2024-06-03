@@ -44,7 +44,7 @@ jobs:
         run: |
           if [ "$TRACE" != 'false' ]
           then
-            printf "Release created: %s\n" $RELEASE_CREATED"
+              printf 'Release created: %s\n' "$RELEASE_CREATED"
           fi
 
   gem:
