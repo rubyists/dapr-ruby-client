@@ -26,9 +26,9 @@ jobs:
         name: Checkout repository
         uses: actions/checkout@v4
       -
+        # Ruby doesn't publish 3.3.0-alpine3.20 as of June 3, 2024,
+        # so we skip this combination.
         if: >
-          # Ruby doesn't publish 3.3.0-alpine3.20 as of June 3, 2024,
-          # so we skip this combination.
           matrix.alpine_version != '3.20' || matrix.ruby_version != '3.3.0'
         name: Publish to github
         env:
