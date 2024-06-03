@@ -213,8 +213,6 @@ $runtime build --tag   "$IMAGE_NAME:$tag" "$@" \
                -f "$containerfile" "$BUILD_CONTEXT" || die 8 "Failed to build image"
 
 [ $push -eq 1 ] || exit 0
-# push the image
-registry_image_name="$REGISTRY/$owner/$IMAGE_NAME:$tag"
 if ! $runtime login --get-login "$REGISTRY" >/dev/null 2>/dev/null
 then
     printf "Not logged in to '%s', trying to login\n" "$REGISTRY" >&2
@@ -222,11 +220,29 @@ then
     printf "%s" "$GITHUB_TOKEN" | $runtime login -u "$GITHUB_TOKEN" --password-stdin "$REGISTRY" || die 10 "Failed to login to $REGISTRY"
 fi
 
-if [ "$runtime" = "podman" ]
-then
-    podman push "$IMAGE_NAME:$tag" "$registry_image_name" || die 11 "Failed to push image"
-else
-    docker push "$registry_image_name" || die 12 "Failed to push image"
-fi
+tags=($(echo "$tag" | awk -F'.' 'NF==3{print $1"."$2"."$3" "$1"."$2" "$1} NF==2{print $1"."$2" "$1} NF==1{print $1}'))
+for t in "${tags[@]}"
+do
+    proper_tag=$IMAGE_NAME:$tag
+    new_tag=$IMAGE_NAME:$t
+    debug "Tagging %s as %s\n" "$proper_tag" "$new_tag"
+    if [ "$runtime" = "podman" ]
+    then
+        if [ "$proper_tag" != "$new_tag" ]
+        then
+            podman tag "$proper_tag" "$new_tag" || die 11 "Failed to tag image $proper_tag as $new_tag"
+        fi
+        registry_image_name="$REGISTRY/$owner/$new_tag"
+        podman push "$new_tag" "$registry_image_name" || die 12 "Failed to push image $new_tag to $registry_image_name"
+    else
+        registry_image_name="$REGISTRY/$owner/$new_tag"
+        proper_registry_name="$REGISTRY/$owner/$proper_tag"
+        if [ "$proper_tag" != "$new_tag" ]
+        then
+            docker tag "$proper_registry_name" "$registry_image_name" || die 13 "Failed to tag image $proper_tag as $new_tag"
+        fi
+        docker push "$registry_image_name" || die 14 "Failed to push image $new_tag to $registry_image_name"
+    fi
+done
 
 # vim: set foldmethod=marker et ts=4 sts=4 sw=4 ft=bash :

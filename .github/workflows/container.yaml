@@ -1,0 +1,27 @@
+---
+name: Publish OCI Container
+on:  # yamllint disable-line rule:truthy
+  workflow_call:
+  workflow_dispatch:
+jobs:
+  publish_github:
+    name: Publish the container image to GitHub Container Registry
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout repository
+        uses: actions/checkout@v4
+      -
+        name: Publish to github
+        env:
+          TRACE: ${{ secrets.ACTIONS_STEP_DEBUG || 'false' }}
+          REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if [ -f ".version.txt" ]
+          then
+              version=$(<.version.txt)
+          else
+              version=$(git describe --tags --abbrev=0)
+          fi
+          GITHUB_TOKEN=$REGISTRY_TOKEN ./ci/build_image.sh -vvp "$version"
+        shell: bash
