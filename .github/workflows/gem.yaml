@@ -2,45 +2,33 @@
 name: Publish Ruby Gem
 on:  # yamllint disable-line rule:truthy
   workflow_call:
-    inputs:
-      gem_version:
-        description: 'Gem version to release'
-        required: false
-        type: string
   workflow_dispatch:
-    inputs:
-      gem_version:
-        description: 'Gem version to release'
-        required: false
-        type: string
 jobs:
   shared_config:
     name: Shared configuration for jobs
-    runs-on: ubuntu-latest
+    env:
+      GEM_NAME: dapr
+      GEM_VERSION: ${{ github.event.inputs.gem_version }}
+
     outputs:
       gem_name: ${{ steps.configure.outputs.gem_name }}
       gem_version: ${{ steps.configure.outputs.gem_version }}
-      git_email: ${{ steps.configure.outputs.git_email }}
-      git_name: ${{ steps.configure.outputs.git_name }}
-      git_org: ${{ steps.configure.outputs.git_org }}
-    env:
-      GEM_NAME: dapr
-      GEM_VERSION: ${{ github.event.inputs.gem_version || '0.0.0' }}
-      GIT_EMAIL: dapr@rubyists.com
-      GIT_NAME: Dapr Automation
-      GIT_ORG: rubyists
+
+    runs-on: ubuntu-latest
     steps:
+      -
+        name: Checkout repository
+        uses: actions/checkout@v4
       -
         id: configure
         name: Configure gem jobs
         #  Create outputs for all the env vars
         run: |
+          release_version=$(<.version.txt)
           printf '::set-output name=gem_name::%s\n' "$GEM_NAME"
-          printf '::set-output name=gem_version::%s\n' "$GEM_VERSION"
-          printf '::set-output name=git_email::%s\n' "$GIT_EMAIL"
-          printf '::set-output name=git_name::%s\n' "$GIT_NAME"
-          printf '::set-output name=git_org::%s\n' "$GIT_ORG"
+          printf '::set-output name=gem_version::%s\n' "$release_version"
         shell: bash
+
   publish_github:
     name: Publish the gem to github
     needs: shared_config
@@ -70,7 +58,7 @@ jobs:
           printf '%s\n:github: Bearer %s\n' '---' "$token" > ~/.gem/credentials
           chmod 600 ~/.gem/credentials
           printf 'Publishing %s to github\n' "$gem"
-          sed -e -i "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" $GEM_NAME.gemspec
+          sed -i -e "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" $GEM_NAME.gemspec
           bundle exec gem build
           bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
         # yamllint enable rule:line-length
@@ -98,8 +86,12 @@ jobs:
           RUBYGEMS_TOKEN: ${{ secrets.RUBYGEMS_TOKEN }}
         # yamllint disable rule:line-length
         run: |
+          if [ -z "$RUBYGEMS_TOKEN" ]
+          then
+            printf 'No rubygems token provided, cannot publish\n'
+            exit 1
+          fi
           # If the workflow does not provide a version, use the one in the .version.txt file
-          [ "$GEM_VERSION" = "0.0.0" ] && version=$(<.version.txt)
           gem="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
           mkdir -p ~/.gem
           printf '%s\n:rubygems: %s\n' '---' "$RUBYGEMS_TOKEN" > ~/.gem/credentials
