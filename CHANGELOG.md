@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.3.1](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.0...v0.3.1) (2024-06-03)
+
+
+### Bug Fixes
+
+* Remove owner/ from the published ghcr.io image ([#67](https://github.com/rubyists/dapr-ruby-client/issues/67)) ([47100ba](https://github.com/rubyists/dapr-ruby-client/commit/47100ba1b4621ad351e8349a2b185ac4bd424c21))
+
 ## [0.3.0](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.11...v0.3.0) (2024-06-03)
 
 
