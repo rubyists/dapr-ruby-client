@@ -127,6 +127,12 @@ Implementation of {secret-block}
 
 Implementation of {configuration-block}
 
+[source,ruby]
+----
+require 'dapr/client/configuration'
+value = Rubyists::Dapr::Client::Configuration.get('TEST_KEY')
+----
+
 === Distributed Lock
 
 Implementation of {distributed-lock-block}
