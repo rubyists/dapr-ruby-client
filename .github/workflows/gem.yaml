@@ -20,10 +20,10 @@ jobs:
       -
         name: Publish to github
         env:
-          GEM_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TRACE: ${{ secrets.ACTIONS_STEP_DEBUG || 'false' }}
+          GEM_TOKEN: ${{ secrets.RELEASE_PLEASE_TOKEN }}
         run: |
-          TRACE="$TRACE" GEM_TOKEN="$GEM_TOKEN" ./ci/publish-gem.sh github
+          TRACE="$TRACE" GEM_TOKEN=$GEM_TOKEN ./ci/publish-gem.sh github
         shell: bash
 
   publish_rubygems:
@@ -45,5 +45,5 @@ jobs:
           GEM_TOKEN: ${{ secrets.RUBYGEMS_TOKEN }}
           TRACE: ${{ secrets.ACTIONS_STEP_DEBUG || 'false' }}
         run: |
-          TRACE="$TRACE" GEM_TOKEN="$GEM_TOKEN" ./ci/publish-gem.sh rubyists
+          TRACE="$TRACE" GEM_TOKEN="$GEM_TOKEN" ./ci/publish-gem.sh rubygems
         shell: bash

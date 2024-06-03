@@ -9,6 +9,7 @@ gem 'bigdecimal'
 gem 'grpc', force_ruby_platform: true
 
 group(:development, :test) do
+  gem 'gem-release'
   gem 'minitest'
   gem 'overcommit'
   gem 'pry-byebug'

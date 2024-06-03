@@ -18,11 +18,11 @@ me=${BASH_SOURCE[0]}
 here=$(cd "$(dirname "$me")" && pwd)
 just_me=$(basename "$me")
 
-: ${GEM_NAME:=dapr}
-: ${GIT_ORG:=rubyists}
+: "${GEM_NAME:=dapr}"
+: "${GIT_ORG:=rubyists}"
 
 GEM_HOST=$1
-: ${GEM_HOST:=rubygems}
+: "${GEM_HOST:=rubygems}"
 
 case "$GEM_HOST" in
     rubygems)
@@ -32,8 +32,8 @@ case "$GEM_HOST" in
     github)
         gem_key='github'
         gem_host="https://rubygems.pkg.github.com/$GIT_ORG"
-        sed -i bak -e "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" "$here"/$GEM_NAME.gemspec
-        trap 'mv "$here"/$GEM_NAME.gemspec.bak "$here"/$GEM_NAME.gemspec' EXIT
+        sed --in-place=.bak -e "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" "$here/../$GEM_NAME".gemspec
+        trap 'mv -v "$here/../$GEM_NAME".gemspec.bak "$here/../$GEM_NAME".gemspec' EXIT
         ;;
     *)
         printf 'Unknown GEM_HOST: %s\n' "$GEM_HOST" >&2
@@ -68,6 +68,6 @@ then
 fi
 
 bundle exec gem build
-bundle exec gem push -k cred --host "$gem_host" "$gem"
+bundle exec gem push -k "$gem_key" --host "$gem_host" "$gem"
 
 # vim: set foldmethod=marker et ts=4 sts=4 sw=4 ft=bash :
