@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.7](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.6...v0.2.7) (2024-06-03)
+
+
+### Features
+
+* **lock:** Release distributed lock component ([#47](https://github.com/rubyists/dapr-ruby-client/issues/47)) ([706d6d5](https://github.com/rubyists/dapr-ruby-client/commit/706d6d58e93c70a25db56ae8bf94975e36963509))
+
 ## [0.2.6](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.5...v0.2.6) (2024-06-03)
 
 
