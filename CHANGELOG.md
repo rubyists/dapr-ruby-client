@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [0.3.0](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.11...v0.3.0) (2024-06-03)
+
+
+### ⚠ BREAKING CHANGES
+
+* Forcing release with a brilliant feature ([#64](https://github.com/rubyists/dapr-ruby-client/issues/64))
+
+### Features
+
+* Forcing release with a brilliant feature ([#64](https://github.com/rubyists/dapr-ruby-client/issues/64)) ([05dcacd](https://github.com/rubyists/dapr-ruby-client/commit/05dcacd5278a622fed94acdbc025d98b621b948a))
+
 ## [0.2.11](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.10...v0.2.11) (2024-06-03)
 
 
