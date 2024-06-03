@@ -58,5 +58,5 @@ jobs:
     if: needs.release.outputs.release_created
     needs: release
     name: Build and publish OCI container images
-    uses: ./.github/workflows/containers.yaml
+    uses: ./.github/workflows/container.yaml
     secrets: inherit
