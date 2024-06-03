@@ -41,3 +41,4 @@ jobs:
     needs: release
     name: Build and publish gem
     uses: ./.github/workflows/gem.yaml
+    secrets: inherit
