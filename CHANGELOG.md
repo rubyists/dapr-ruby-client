@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.3](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.2...v0.2.3) (2024-06-03)
+
+
+### Bug Fixes
+
+* Hack it up to allow publishing to multiple gem package repos ([#26](https://github.com/rubyists/dapr-ruby-client/issues/26)) ([e59ca38](https://github.com/rubyists/dapr-ruby-client/commit/e59ca38bf2aee9950ef84bd57548f0f3d81c402d))
+
 ## [0.2.2](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.1...v0.2.2) (2024-06-02)
 
 
