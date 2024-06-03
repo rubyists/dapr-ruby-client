@@ -6,11 +6,13 @@ on:  # yamllint disable-line rule:truthy
       tag:
         description: 'The tag to use for the container image'
         required: false
+        type: string
   workflow_dispatch:
     inputs:
       tag:
         description: 'The tag to use for the container image'
         required: false
+        type: string
 jobs:
   publish_github:
     name: Publish the container image to GitHub Container Registry
@@ -25,6 +27,7 @@ jobs:
           TRACE: ${{ secrets.ACTIONS_STEP_DEBUG || 'false' }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           TAG: ${{ github.event.inputs.tag || '' }}
+        # yamllint disable rule:line-length
         run: |
           if [ -z "$TAG" ]
           then
@@ -42,4 +45,5 @@ jobs:
           fi
           [ "$TRACE" = 'true' ] && printf 'Calling ./ci/build_image.sh -vvp "%s"\n' "$version" >&2
           GITHUB_TOKEN=$REGISTRY_TOKEN ./ci/build_image.sh -vvp "$version"
+        # yamllint enable rule:line-length
         shell: bash
