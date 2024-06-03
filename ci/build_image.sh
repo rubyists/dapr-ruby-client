@@ -220,7 +220,7 @@ then
     printf "%s" "$GITHUB_TOKEN" | $runtime login -u "$GITHUB_TOKEN" --password-stdin "$REGISTRY" || die 10 "Failed to login to $REGISTRY"
 fi
 
-tags=($(echo "$tag" | awk -F'.' 'NF==3{print $1"."$2"."$3" "$1"."$2" "$1} NF==2{print $1"."$2" "$1} NF==1{print $1}'))
+mapfile -t tags < <(echo "$tag" | awk -F'.' 'NF==3{print $1"."$2"."$3; print $1"."$2; print $1; next} NF==2{print $1"."$2; print $1; next} {print}')
 for t in "${tags[@]}"
 do
     proper_tag=$IMAGE_NAME:$tag
