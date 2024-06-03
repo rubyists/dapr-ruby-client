@@ -4,30 +4,8 @@ on:  # yamllint disable-line rule:truthy
   workflow_call:
   workflow_dispatch:
 jobs:
-  shared_config:
-    name: Shared configuration for jobs
-    env:
-      GEM_NAME: dapr
-      GEM_VERSION: ${{ github.event.inputs.gem_version }}
-
-    outputs:
-      gem_name: ${{ steps.configure.outputs.gem_name }}
-      gem_version: ${{ steps.configure.outputs.gem_version }}
-
-    runs-on: ubuntu-latest
-    steps:
-      -
-        name: Checkout repository
-        uses: actions/checkout@v4
-      -
-        id: configure
-        name: Configure gem jobs
-        #  Create outputs for all the env vars
-        run: ./ci/configure-gem-jobs.sh
-
   publish_github:
     name: Publish the gem to github
-    needs: shared_config
     runs-on: ubuntu-latest
     steps:
       -
