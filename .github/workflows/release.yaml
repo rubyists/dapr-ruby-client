@@ -37,7 +37,7 @@ jobs:
           manifest-file: .release-please-manifest.json
           token: ${{ secrets.RELEASE_PLEASE_TOKEN }}
       -
-        if: secrets.ACTIONS_STEP_DEBUG
+        if: ${{ secrets.ACTIONS_STEP_DEBUG }}
         env:
           RELEASE_CREATED: ${{ steps.release.outputs.release_created }}
         run: |
