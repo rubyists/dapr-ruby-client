@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.9](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.8...v0.2.9) (2024-06-03)
+
+
+### Features
+
+* **builds:** Use matrix to build containers ([#52](https://github.com/rubyists/dapr-ruby-client/issues/52)) ([0f1ed51](https://github.com/rubyists/dapr-ruby-client/commit/0f1ed510984806b08a6c267ad36c4f8fca6478f8))
+
 ## [0.2.8](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.7...v0.2.8) (2024-06-03)
 
 
