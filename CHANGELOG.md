@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.2.4](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.3...v0.2.4) (2024-06-03)
+
+
+### Bug Fixes
+
+* Adds codeql scanning back to the release pipeline ([#29](https://github.com/rubyists/dapr-ruby-client/issues/29)) ([0b0d602](https://github.com/rubyists/dapr-ruby-client/commit/0b0d602db68dd8bf6583552a2e7d92276135be8f))
+* Uses .yaml suffix for all yaml files ([8c7aaf9](https://github.com/rubyists/dapr-ruby-client/commit/8c7aaf98eeb5d9eb6d7a74bf0fb574654e150a83))
+
 ## [0.2.3](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.2...v0.2.3) (2024-06-03)
 
 
