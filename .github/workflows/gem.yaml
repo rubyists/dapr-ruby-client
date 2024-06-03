@@ -11,7 +11,7 @@ jobs:
       matrix:
         registry:
           - key: rubygems
-            secret: ${{ secrets.GEM_TOKEN_RUBYGEMS }}
+            secret: ${{ secrets.RUBYGEMS_TOKEN }}
           - key: github
             secret: ${{ secrets.GEM_TOKEN_GITHUB }}
     steps:
@@ -29,7 +29,7 @@ jobs:
         env:
           TRACE: ${{ secrets.ACTIONS_STEP_DEBUG || 'false' }}
           GEM_TOKEN: ${{ matrix.registry.secret }}
-          REGISTRY_KEY: ${{ matrix.registry.key }}
+          REGISTRY: ${{ matrix.registry.key }}
         run: |
-          TRACE="$TRACE" GEM_TOKEN=$GEM_TOKEN ./ci/publish-gem.sh "$REGISTRY_KEY"
+          TRACE="$TRACE" GEM_TOKEN=$GEM_TOKEN ./ci/publish-gem.sh "$REGISTRY"
         shell: bash
