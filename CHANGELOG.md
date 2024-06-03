@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.2.5](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.4...v0.2.5) (2024-06-03)
+
+
+### Bug Fixes
+
+* **ci:** Move conditional to the run script ([#40](https://github.com/rubyists/dapr-ruby-client/issues/40)) ([cb8a15f](https://github.com/rubyists/dapr-ruby-client/commit/cb8a15f60d55928258c832005607a0368ba84b40))
+* **ci:** Only publish gem when release is created ([#38](https://github.com/rubyists/dapr-ruby-client/issues/38)) ([086382f](https://github.com/rubyists/dapr-ruby-client/commit/086382fbd368088ca6d3e590dc9daaeb2684bf42))
+
 ## [0.2.4](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.3...v0.2.4) (2024-06-03)
 
 
