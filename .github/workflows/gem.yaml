@@ -14,8 +14,71 @@ on:  # yamllint disable-line rule:truthy
         required: false
         type: string
 jobs:
-  publish_gem:
-    name: Publish the gem
+  shared_config:
+    name: Shared configuration for jobs
+    runs-on: ubuntu-latest
+    outputs:
+      gem_name: ${{ steps.configure.outputs.gem_name }}
+      gem_version: ${{ steps.configure.outputs.gem_version }}
+      git_email: ${{ steps.configure.outputs.git_email }}
+      git_name: ${{ steps.configure.outputs.git_name }}
+      git_org: ${{ steps.configure.outputs.git_org }}
+    env:
+      GEM_NAME: dapr
+      GEM_VERSION: ${{ github.event.inputs.gem_version || '0.0.0' }}
+      GIT_EMAIL: dapr@rubyists.com
+      GIT_NAME: Dapr Automation
+      GIT_ORG: rubyists
+    steps:
+      -
+        id: configure
+        name: Configure gem jobs
+        #  Create outputs for all the env vars
+        run: |
+          printf '::set-output name=gem_name::%s\n' "$GEM_NAME"
+          printf '::set-output name=gem_version::%s\n' "$GEM_VERSION"
+          printf '::set-output name=git_email::%s\n' "$GIT_EMAIL"
+          printf '::set-output name=git_name::%s\n' "$GIT_NAME"
+          printf '::set-output name=git_org::%s\n' "$GIT_ORG"
+        shell: bash
+  publish_github:
+    name: Publish the gem to github
+    needs: shared_config
+    runs-on: ubuntu-latest
+    steps:
+      -
+        name: Checkout repository
+        uses: actions/checkout@v4
+      -
+        name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.3.1
+          bundler-cache: true
+      -
+        name: Publish to github
+        env:
+          GEM_NAME: ${{ needs.shared_config.outputs.gem_name }}
+          GEM_VERSION: ${{ needs.shared_config.outputs.gem_version }}
+        # yamllint disable rule:line-length
+        run: |
+          # If the workflos does not provide a version, use the one in the .version.txt file
+          [ "$GEM_VERSION" = "0.0.0" ] && version=$(<.version.txt)
+          gem="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
+          mkdir -p ~/.gem
+          token=${{ secrets.GITHUB_TOKEN }}
+          printf '%s\n:github: Bearer %s\n' '---' "$token" > ~/.gem/credentials
+          chmod 600 ~/.gem/credentials
+          printf 'Publishing %s to github\n' "$gem"
+          sed -e -i "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" $GEM_NAME.gemspec
+          bundle exec gem build
+          bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
+        # yamllint enable rule:line-length
+        shell: bash
+
+  publish_rubygems:
+    name: Publish to rubygems
+    needs: shared_config
     runs-on: ubuntu-latest
     steps:
       -
@@ -30,48 +93,19 @@ jobs:
       -
         name: Publish to rubygems
         env:
-          FORCE_PUBLISH: ${{ github.event.inputs.force && 'true' || 'false' }}
-          GEM_NAME: dapr
-          GEM_VERSION: ${{ github.event.inputs.gem_version || '0.0.0' }}
-          GIT_NAME: Dapr Automation
-          GIT_EMAIL: dapr@rubyists.com
-          GIT_ORG: rubyists
+          GEM_NAME: ${{ needs.shared_config.outputs.gem_name }}
+          GEM_VERSION: ${{ needs.shared_config.outputs.gem_version }}
           RUBYGEMS_TOKEN: ${{ secrets.RUBYGEMS_TOKEN }}
         # yamllint disable rule:line-length
         run: |
           # If the workflow does not provide a version, use the one in the .version.txt file
           [ "$GEM_VERSION" = "0.0.0" ] && version=$(<.version.txt)
           gem="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
-          git config --global user.email "$GIT_EMAIL"
-          git config --global user.name "$GIT_NAME"
           mkdir -p ~/.gem
-          printf '%s\n:rubygems: Bearer %s\n' '---' "$RUBYGEMS_TOKEN" >> ~/.gem/credentials
+          printf '%s\n:rubygems: %s\n' '---' "$RUBYGEMS_TOKEN" > ~/.gem/credentials
           chmod 600 ~/.gem/credentials
           printf 'Publishing %s to rubygems\n' "$gem"
           bundle exec gem build
           bundle exec gem push -k rubygems --host https://rubygems.org "$gem"
-          rm "$gem"
-        # yamllint enable rule:line-length
-        shell: bash
-      -
-        name: Publish to github
-        env:
-          GEM_NAME: dapr
-          GEM_VERSION: ${{ github.event.inputs.gem_version || '0.0.0' }}
-          GIT_NAME: Dapr Automation
-          GIT_EMAIL: dapr@rubyists.com
-          GIT_ORG: rubyists
-        # yamllint disable rule:line-length
-        run: |
-          # If the workflos does not provide a version, use the one in the .version.txt file
-          [ "$GEM_VERSION" = "0.0.0" ] && version=$(<.version.txt)
-          token=${{ secrets.GITHUB_TOKEN }}
-          gem="$(printf '%s-%s.gem' "$GEM_NAME" "$version")"
-          bundle config https://rubygems.pkg.github.com/$GIT_ORG "${token}:${token}"
-          printf '%s\n:github: Bearer %s\n' '---' "$token" >> ~/.gem/credentials
-          printf 'Publishing %s to github\n' "$gem"
-          sed -e -i "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" $GEM_NAME.gemspec
-          bundle exec gem build
-          bundle exec gem push -k github --host https://rubygems.pkg.github.com/$GIT_ORG "$gem"
         # yamllint enable rule:line-length
         shell: bash
