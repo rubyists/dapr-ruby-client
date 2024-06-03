@@ -9,7 +9,11 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        registry: [rubygems, github]
+        registry:
+          - key: rubygems
+            secret: ${{ secrets.GEM_TOKEN_RUBYGEMS }}
+          - key: github
+            secret: ${{ secrets.GEM_TOKEN_GITHUB }}
     steps:
       -
         name: Checkout repository
@@ -24,8 +28,8 @@ jobs:
         name: Publish to ${{ matrix.registry }}
         env:
           TRACE: ${{ secrets.ACTIONS_STEP_DEBUG || 'false' }}
-          GEM_TOKEN: ${{ secrets.GEM_TOKEN_GITHUB }}
-          REGISTRY: ${{ matrix.registry }}
+          GEM_TOKEN: ${{ matrix.registry.secret }}
+          REGISTRY_KEY: ${{ matrix.registry.key }}
         run: |
-          TRACE="$TRACE" GEM_TOKEN=$GEM_TOKEN ./ci/publish-gem.sh "$REGISTRY"
+          TRACE="$TRACE" GEM_TOKEN=$GEM_TOKEN ./ci/publish-gem.sh "$REGISTRY_KEY"
         shell: bash
