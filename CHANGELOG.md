@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.2.10](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.9...v0.2.10) (2024-06-03)
+
+
+### Bug Fixes
+
+* Release testing PR ([#57](https://github.com/rubyists/dapr-ruby-client/issues/57)) ([1f56abf](https://github.com/rubyists/dapr-ruby-client/commit/1f56abfb350c8d4886fcc2a2fd7183b2f6456d35))
+* **workflow:** Corrects workflow syntax ([#55](https://github.com/rubyists/dapr-ruby-client/issues/55)) ([dee10a4](https://github.com/rubyists/dapr-ruby-client/commit/dee10a4a9475f73b1b52bbc0408564c05bc83ab8))
+
 ## [0.2.9](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.8...v0.2.9) (2024-06-03)
 
 
