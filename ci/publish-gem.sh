@@ -32,7 +32,9 @@ case "$GEM_HOST" in
     github)
         gem_key='github'
         gem_host="https://rubygems.pkg.github.com/$GIT_ORG"
+        # Replace the gem host in the gemspec, so it allows pushing to the GitHub package registry
         sed --in-place=.bak -e "s|https://rubygems.org|https://rubygems.pkg.github.com/$GIT_ORG|" "$here/../$GEM_NAME".gemspec
+        # Restore the original gemspec after the script finishes
         trap 'mv -v "$here/../$GEM_NAME".gemspec.bak "$here/../$GEM_NAME".gemspec' EXIT
         ;;
     *)
@@ -41,12 +43,14 @@ case "$GEM_HOST" in
         ;;
 esac
 
-# Only want this part  running in CI, with no ~/.gem dir
+# We only want this part running in CI, with no ~/.gem dir
+# For local testing, you should have a ~/.gem/credentials file with
+# the keys you need to push to rubygems or github
 if [ ! -d ~/.gem ]
 then
     if [ -z "$GEM_TOKEN" ]
     then
-        printf 'No GEM_TOKEN provided, cannot publish\n'
+        printf 'No GEM_TOKEN provided, cannot publish\n' >&2
         exit 1
     fi
     mkdir -p ~/.gem
