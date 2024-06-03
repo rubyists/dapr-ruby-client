@@ -11,11 +11,11 @@ on:  # yamllint disable-line rule:truthy
 jobs:
   validate_ruby:
     name: Ruby Tests
-    uses: ./.github/workflows/main.yml
+    uses: ./.github/workflows/main.yaml
 
   validate_codeql:
     name: CodeQL Analysis
-    uses: ./.github/workflows/codeql.yml
+    uses: ./.github/workflows/codeql.yaml
 
   release:
     needs: [validate_ruby, validate_codeql]
