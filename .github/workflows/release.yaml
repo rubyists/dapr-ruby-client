@@ -53,3 +53,10 @@ jobs:
     name: Build and publish gem
     uses: ./.github/workflows/gem.yaml
     secrets: inherit
+
+  containers:
+    if: needs.release.outputs.release_created
+    needs: release
+    name: Build and publish OCI container images
+    uses: ./.github/workflows/containers.yaml
+    secrets: inherit

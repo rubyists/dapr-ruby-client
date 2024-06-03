@@ -35,7 +35,7 @@ RUN rm -rf node_modules tmp/cache app/assets vendor/assets spec
 ############### Build step done ###############
 ARG ALPINE_VERSION=3.19
 ARG RUBY_VERSION=3.3.1
-FROM docker.io/$RUBY_VERSION-alpine$ALPINE_VERSION
+FROM docker.io/ruby:$RUBY_VERSION-alpine$ALPINE_VERSION
 
 ARG APP_ROOT=/app
 
