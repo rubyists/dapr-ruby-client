@@ -1,5 +1,6 @@
 = Dapr Client for Ruby
-:ifdef::env-github[]
+:icons: font
+ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 :important-caption: :heavy_exclamation_mark:
@@ -17,6 +18,7 @@ endif::[]
 :workflow-block: https://docs.dapr.io/developing-applications/building-blocks/workflow/workflow-overview/[Dapr Workflow Building Block]
 :cryptography-block: https://docs.dapr.io/developing-applications/building-blocks/cryptography/cryptography-overview/[Dapr Cryptography Building Block]
 
+image::https://img.shields.io/badge/Conventional%20Commits-1.0.0-yellow.svg[Conventional Commits,link=https://www.conventionalcommits.org/en/v1.0.0/]
 
 == Overview
 
