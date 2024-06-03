@@ -4,7 +4,7 @@ name: Validations
 on:  # yamllint disable-line rule:truthy
   workflow_dispatch:
   workflow_call:
-  pull_resquest:
+  pull_request:
 
 jobs:
   validate_ruby:
