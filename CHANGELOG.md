@@ -1,5 +1,13 @@
 ## [Unreleased]
 
+## [0.2.8](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.7...v0.2.8) (2024-06-03)
+
+
+### Bug Fixes
+
+* Adds type declaration to workflow inputs ([#50](https://github.com/rubyists/dapr-ruby-client/issues/50)) ([3203b1c](https://github.com/rubyists/dapr-ruby-client/commit/3203b1cfa383f58b61a7fc00f57bbd007c1ff494))
+* **build:** Corrects name of image build script ([#49](https://github.com/rubyists/dapr-ruby-client/issues/49)) ([04ff29e](https://github.com/rubyists/dapr-ruby-client/commit/04ff29e5812ac5986f3ec01b10300c566d12979c))
+
 ## [0.2.7](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.6...v0.2.7) (2024-06-03)
 
 
