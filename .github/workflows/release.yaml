@@ -9,16 +9,12 @@ on:  # yamllint disable-line rule:truthy
   workflow_call:
 
 jobs:
-  validate_ruby:
-    name: Ruby Tests
-    uses: ./.github/workflows/main.yaml
-
-  validate_codeql:
-    name: CodeQL Analysis
-    uses: ./.github/workflows/codeql.yaml
+  validate:
+    name: Validations
+    uses: ./.github/workflows/validations.yaml
 
   release:
-    needs: [validate_ruby, validate_codeql]
+    needs: [validate]
     name: Create a release
     runs-on: ubuntu-latest
     outputs:
@@ -47,16 +43,9 @@ jobs:
               printf 'Release created: %s\n' "$RELEASE_CREATED"
           fi
 
-  gem:
+  publish:
     if: needs.release.outputs.release_created
     needs: release
-    name: Build and publish gem
-    uses: ./.github/workflows/gem.yaml
-    secrets: inherit
-
-  containers:
-    if: needs.release.outputs.release_created
-    needs: release
-    name: Build and publish OCI container images
-    uses: ./.github/workflows/container.yaml
+    name: Build and publish artifacts
+    uses: ./.github/workflows/publish.yaml
     secrets: inherit
