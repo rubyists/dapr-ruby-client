@@ -46,6 +46,19 @@ gem 'datadog_api_client'
 gem 'grpc', force_ruby_platform: true
 ----
 
+=== Docker
+
+If you find yourself waiting 20 minutes to build the grpc gem
+in your CI environments, you might want to use the images
+we publish (built from https://docker.io/library/ruby images)
+
+.Example Dockerfile
+[source,docker]
+----
+FROM ghcr.io/rubyists/dapr-ruby-client:0.3.0-ruby3.3.2-alpine3.20
+RUN ...
+----
+
 == Usage
 
 Dapr being such a Smörgåsbord, this library exposes each {dapr-building-block} as either a
