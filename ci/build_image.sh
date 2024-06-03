@@ -25,12 +25,20 @@ cd "$repo_top" || {
 }
 
 base_dir=$(basename "$(pwd)")
-: "${ALPINE_VERSION:=3.19}"
+: "${ALPINE_VERSION:=3.20}"
 : "${BUILD_CONTEXT:=$(pwd)}"
 : "${IMAGE_NAME:=$base_dir}"
 : "${LICENSE:=MIT}"
 : "${REGISTRY:=ghcr.io}"
-: "${RUBY_VERSION:=3.3.1}"
+: "${RUBY_VERSION:=3.3.2}"
+
+base_image_tag="$RUBY_VERSION-alpine$ALPINE_VERSION"
+base_exists=$(skopeo list-tags docker://docker.io/ruby |jq -r "any(.Tags[] == \"$base_image_tag\"; .)")
+if [ "$base_exists" = "false" ]
+then
+    printf "Base image %s does not exist at docker.io/ruby, cannot build.\n" "$base_image_tag" >&2
+    exit 99
+fi
 
 usage() { # {{{
     cat <<-EOT
