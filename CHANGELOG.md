@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.2.6](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.5...v0.2.6) (2024-06-03)
+
+
+### Features
+
+* Document Configuration for consumption ([#43](https://github.com/rubyists/dapr-ruby-client/issues/43)) ([5142d5b](https://github.com/rubyists/dapr-ruby-client/commit/5142d5bc85a2c4aa5da18aa91897569118d645df))
+
 ## [0.2.5](https://github.com/rubyists/dapr-ruby-client/compare/v0.2.4...v0.2.5) (2024-06-03)
 
 
