@@ -1,0 +1,16 @@
+---
+name: Validations
+
+on:  # yamllint disable-line rule:truthy
+  workflow_dispatch:
+  workflow_call:
+  pull_resquest:
+
+jobs:
+  validate_ruby:
+    name: Ruby Tests
+    uses: ./.github/workflows/main.yaml
+
+  validate_codeql:
+    name: CodeQL Analysis
+    uses: ./.github/workflows/codeql.yaml
