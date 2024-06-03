@@ -137,6 +137,14 @@ value = Rubyists::Dapr::Client::Configuration.get('TEST_KEY')
 
 Implementation of {distributed-lock-block}
 
+[source,ruby]
+----
+require 'dapr/client/lock'
+lock = Rubyists::Dapr::Client::Lock.acquire('TEST_LOCK')
+... do_important_stuff ...
+lock.unlock!
+----
+
 === Workflow
 
 Implementation of {workflow-block}
