@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.3.2](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.1...v0.3.2) (2024-07-19)
+
+
+### Features
+
+* **grpc:** Update grpc to 1.65.1 ([#69](https://github.com/rubyists/dapr-ruby-client/issues/69)) ([536dec9](https://github.com/rubyists/dapr-ruby-client/commit/536dec92730f3578de368d19c8150d701a6aac1b))
+
 ## [0.3.1](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.0...v0.3.1) (2024-06-03)
 
 
