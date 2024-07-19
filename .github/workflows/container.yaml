@@ -18,26 +18,22 @@ jobs:
     name: Publish the container image to GitHub Container Registry
     runs-on: ubuntu-latest
     strategy:
-      # Go easy on the builders
-      max-parallel: 2
+      # Go hard on the builders
+      max-parallel: 5
       matrix:
         alpine-version: ['3.20', '3.19']
-        ruby-version: ['3.3.2', '3.3.1']
+        ruby-version: ['3.3.4', '3.3.3', '3.3.2']
         # 3.3.0 isn't published (to docker.io) for 3.20, so we only do 3.19, the
         # latest published version.
-        include:
-          - alpine-version: '3.19'
-            ruby-version: '3.3.0'
+        #include:
+        #- alpine-version: '3.19'
+        #ruby-version: '3.3.0'
     steps:
       -
         name: Checkout repository
         uses: actions/checkout@v4
       -
-        # Ruby doesn't publish 3.3.0-alpine3.20 as of June 3, 2024,
-        # so we skip this combination.
-        if: >
-          matrix.alpine_version != '3.20' || matrix.ruby_version != '3.3.0'
-        name: Publish to github
+        name: Publish to ghcr.io
         env:
           ALPINE_VERSION: ${{ matrix.alpine-version }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}

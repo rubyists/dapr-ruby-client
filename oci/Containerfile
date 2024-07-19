@@ -1,5 +1,5 @@
-ARG ALPINE_VERSION=3.19
-ARG RUBY_VERSION=3.3.1
+ARG ALPINE_VERSION=3.20
+ARG RUBY_VERSION=3.3.4
 FROM docker.io/ruby:$RUBY_VERSION-alpine$ALPINE_VERSION AS build-env
 
 # Setting env up
@@ -33,8 +33,8 @@ RUN bundle config set build.nokogiri --use-system-libraries && \
 RUN rm -rf node_modules tmp/cache app/assets vendor/assets spec
 
 ############### Build step done ###############
-ARG ALPINE_VERSION=3.19
-ARG RUBY_VERSION=3.3.1
+ARG ALPINE_VERSION=3.20
+ARG RUBY_VERSION=3.3.4
 FROM docker.io/ruby:$RUBY_VERSION-alpine$ALPINE_VERSION
 
 ARG APP_ROOT=/app
