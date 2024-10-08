@@ -1,5 +1,17 @@
 ## [Unreleased]
 
+## [0.3.3](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.2...v0.3.3) (2024-10-08)
+
+
+### Features
+
+* **grpc:** Update grpc to 1.66 in container ([#71](https://github.com/rubyists/dapr-ruby-client/issues/71)) ([da78331](https://github.com/rubyists/dapr-ruby-client/commit/da783315276b27c4a1b37996198021f415adf4cf))
+
+
+### Bug Fixes
+
+* **lock:** Updates lock/unlock to append _alpha1 ([#72](https://github.com/rubyists/dapr-ruby-client/issues/72)) ([847d091](https://github.com/rubyists/dapr-ruby-client/commit/847d0910265df8c37edf5d2af4eed0c0f6d4feb0))
+
 ## [0.3.2](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.1...v0.3.2) (2024-07-19)
 
 

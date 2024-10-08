@@ -3,7 +3,7 @@
 module Rubyists
   module Dapr
     # x-release-please-start-version
-    VERSION = '0.3.2'
+    VERSION = '0.3.3'
     # x-release-please-end
   end
 end
