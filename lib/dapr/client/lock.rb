@@ -21,6 +21,11 @@ module Rubyists
         UnlockRequest = ::Dapr::Proto::Runtime::V1::UnlockRequest
         DEFAULT_STORE_NAME = 'locker'
 
+        # @param resource_id [String] The unique ID of the resource to lock
+        # @param store_name [String]  The name of the Dapr lock store component to use
+        # @param ttl [Integer] The time-to-live for the lock in seconds
+        #
+        # @return [Lock] The lock object
         def self.acquire(resource_id, store_name: DEFAULT_STORE_NAME, ttl: 10)
           lock = new(store_name, resource_id)
           lock.lock!(ttl:)
@@ -37,7 +42,7 @@ module Rubyists
 
         # @param ttl [Integer] The time-to-live for the lock in seconds
         def lock!(ttl: 10)
-          response = singleton.try_lock(LockRequest.new(store_name:, resource_id:, lock_owner:, expiry_in_seconds: ttl))
+          response = singleton.try_lock_alpha1 lock_request
           if response.success
             logger.info('Acquired lock', store_name:, resource_id:, ttl:, lock_owner:)
             return self
@@ -48,7 +53,7 @@ module Rubyists
         end
 
         def unlock!
-          response = singleton.unlock(UnlockRequest.new(store_name:, resource_id:, lock_owner:))
+          response = singleton.unlock_alpha1(UnlockRequest.new(store_name:, resource_id:, lock_owner:))
           status = response.status
           return true if status == :SUCCESS
 
@@ -61,6 +66,13 @@ module Rubyists
         # @return [String] The unique ID of the lock owner
         def lock_owner
           @lock_owner ||= SecureRandom.uuid
+        end
+
+        # @param ttl [Integer] The time-to-live for the lock in seconds
+        #
+        # @return [LockRequest] The lock request
+        def lock_request(ttl: 10)
+          @lock_request ||= LockRequest.new(store_name:, resource_id:, lock_owner:, expiry_in_seconds: ttl)
         end
       end
     end
