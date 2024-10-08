@@ -9,14 +9,14 @@ class TestDaprLock < Minitest::Test
 
   # Helper for when we want a lock acquisition to succeed
   def dress_for_success!
-    DummyClient.define_method(:try_lock) do |*_args, &_block|
+    DummyClient.define_method(:try_lock_alpha1) do |*_args, &_block|
       Dapr::Proto::Runtime::V1::TryLockResponse.new(success: true)
     end
   end
 
   # Helper for when we want a lock acquisition to fail
   def dress_for_failure!
-    DummyClient.define_method(:try_lock) do |*_args, &_block|
+    DummyClient.define_method(:try_lock_alpha1) do |*_args, &_block|
       Dapr::Proto::Runtime::V1::TryLockResponse.new(success: false)
     end
   end
@@ -31,7 +31,7 @@ class TestDaprLock < Minitest::Test
   def undress!(status: 0)
     # First we'll need to set up the lock method to succeed, so we have a lock to unlock
     dress_for_success!
-    DummyClient.define_method(:unlock) do |*_args, &_block|
+    DummyClient.define_method(:unlock_alpha1) do |*_args, &_block|
       Dapr::Proto::Runtime::V1::UnlockResponse.new(status:)
     end
   end
