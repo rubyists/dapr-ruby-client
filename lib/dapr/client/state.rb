@@ -59,6 +59,8 @@ module Rubyists
 
         # @param states     [Hash] states to set (key/values in the state store)
         # @param metadata   [Hash] metadata to include
+        #
+        # @return [Empty] The response from the Dapr State Management component (Empty means success)
         def set(states, metadata: {})
           states  = states.map { |key, value| { key:, value:, metadata: } }
           request = SaveStateRequest.new(store_name:, states:)
