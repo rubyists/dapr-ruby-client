@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [0.4.0](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.3...v0.4.0) (2024-10-23)
+
+
+### ⚠ BREAKING CHANGES
+
+* **state:** Adds state management component ([#74](https://github.com/rubyists/dapr-ruby-client/issues/74))
+
+### Features
+
+* **state:** Adds state management component ([#74](https://github.com/rubyists/dapr-ruby-client/issues/74)) ([2fc596d](https://github.com/rubyists/dapr-ruby-client/commit/2fc596dad1439c5d52a03bdf763d8b0d38aa9bab))
+
 ## [0.3.3](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.2...v0.3.3) (2024-10-08)
 
 
