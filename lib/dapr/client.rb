@@ -11,9 +11,10 @@ module Rubyists
     # The namespace for the Dapr client
     module Client
       include SemanticLogger::Loggable
+      Runtime = ::Dapr::Proto::Runtime::V1
       DAPR_PORT = ENV.fetch('DAPR_GRPC_PORT', nil)
       DAPR_URI = ENV.fetch('DAPR_GRPC_HOST', 'localhost')
-      DAPR_STUB = ::Dapr::Proto::Runtime::V1::Dapr::Stub
+      DAPR_STUB = Runtime::Dapr::Stub
 
       def self.client(dapr_port: DAPR_PORT, dapr_uri: DAPR_URI)
         return DummyClient.new if dapr_port.nil?
