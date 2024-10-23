@@ -126,6 +126,30 @@ TIP: Multiple topics can be subscribed to simultaneously by passing an array of 
 
 Implementation of {state-block}
 
+==== Set state key(s)
+
+[source,ruby]
+----
+require 'dapr/client/state' <1>
+desired_state = { key1: 'value1', key2: { nested: 'value2' }.to_json } <2>
+Rubyists::Dapr::Client::State.set(desired_state) <3>
+----
+<1> Require the state client.
+<2> Define the desired state. This must be a hash with simple keys, and the values must be strings (thus the #to_json)
+<3> Set the state. This will overwrite any existing state with the same key(s) (and update the etag of any updated keys)
+
+==== Get state key(s)
+
+[source,ruby]
+----
+require 'dapr/client/state' <1>
+states = Rubyists::Dapr::Client::State.get('key1', 'key2') <2>
+puts states['key1'].data <3>
+----
+<1> Require the state client.
+<2> Get the state for the specified key(s). This will return a hash whose values respond to #data.
+<3> Access the data of the state for the `key1` key.
+
 === Actors
 
 Implementation of {actors-block}
@@ -178,7 +202,7 @@ Releases are handled by release-please in github actions.
 
 == Contributing
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/rubyists/dapr.
+Bug reports and pull requests are welcome on GitHub at https://github.com/rubyists/dapr-ruby-client.
 
 === Conventional Commits
 
