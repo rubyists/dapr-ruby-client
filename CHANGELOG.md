@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.4.1](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.0...v0.4.1) (2024-10-24)
+
+
+### Bug Fixes
+
+* **state:** Updates State#get to return a Hash instead of an Array ([#76](https://github.com/rubyists/dapr-ruby-client/issues/76)) ([052fcfa](https://github.com/rubyists/dapr-ruby-client/commit/052fcfa6ca6077e13343738d38b5768e693b4c9b))
+
 ## [0.4.0](https://github.com/rubyists/dapr-ruby-client/compare/v0.3.3...v0.4.0) (2024-10-23)
 
 
