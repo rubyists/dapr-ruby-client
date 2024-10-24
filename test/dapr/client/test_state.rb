@@ -45,17 +45,15 @@ class TestDaprState < Minitest::Test
     @testy
   end
 
-  context 'State' do # rubocop:disable Metrics/BlockLength
+  context 'State' do
     should 'Read existing State item' do
       make_it_testy!
       messages = semantic_logger_events(Rubyists::Dapr::Client::State) do
         states = Rubyists::Dapr::Client::State.get('test_item1', 'test_item2')
 
         assert_equal 2, states.size
-        assert_equal 'test-state-data-0', states[0].data
-        assert_equal 'test_item1', states[0].key
-        assert_equal 'test_item2', states[1].key
-        assert_equal 'test-state-data-1', states[1].data
+        assert_equal 'test-state-data-0', states['test_item1'].data
+        assert_equal 'test-state-data-1', states['test_item2'].data
       end
 
       assert_equal 1, messages.size

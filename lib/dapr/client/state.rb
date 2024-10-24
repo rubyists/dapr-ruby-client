@@ -14,6 +14,7 @@ module Rubyists
 
         attr_reader :store_name
 
+        Item                 = Struct.new(:data, :etag, :metadata)
         Empty                = Google::Protobuf::Empty
         Runtime              = Client::Runtime
         GetBulkStateResponse = Runtime::GetBulkStateResponse
@@ -53,11 +54,13 @@ module Rubyists
         def get(keys, metadata: {})
           logger.debug('Getting state', keys:, store_name:, metadata:)
           response = singleton.get_bulk_state GetStateRequest.new(store_name:, keys:, metadata:)
-          response.items
+          response.items.to_h { |i| [i.key, Item.new(data: i.data, etag: i.etag, metadata: i.metadata)] }
         end
 
         # @param states     [Hash] states to set (key/values in the state store)
         # @param metadata   [Hash] metadata to include
+        #
+        # @return [Empty] The response from the Dapr State Management component (Empty means success)
         def set(states, metadata: {})
           states  = states.map { |key, value| { key:, value:, metadata: } }
           request = SaveStateRequest.new(store_name:, states:)
