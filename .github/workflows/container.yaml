@@ -21,13 +21,8 @@ jobs:
       # Go hard on the builders
       max-parallel: 5
       matrix:
-        alpine-version: ['3.20', '3.19']
-        ruby-version: ['3.3.5', '3.3.4', '3.3.3']
-        # 3.3.0 isn't published (to docker.io) for 3.20, so we only do 3.19, the
-        # latest published version.
-        #include:
-        #- alpine-version: '3.19'
-        #ruby-version: '3.3.0'
+        alpine-version: ['3.21', '3.20']
+        ruby-version: ['3.3.6', '3.3.5', '3.3.4']
     steps:
       -
         name: Checkout repository
