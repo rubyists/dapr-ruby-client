@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.4.2](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.1...v0.4.2) (2024-12-16)
+
+
+### Bug Fixes
+
+* **build:** Vendor gems for quicker image builds ([#78](https://github.com/rubyists/dapr-ruby-client/issues/78)) ([57fbe12](https://github.com/rubyists/dapr-ruby-client/commit/57fbe126390aa9f5aebcf06d4f42bd5e1ff3ee63))
+
 ## [0.4.1](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.0...v0.4.1) (2024-10-24)
 
 
