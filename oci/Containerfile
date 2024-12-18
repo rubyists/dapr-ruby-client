@@ -1,6 +1,6 @@
-ARG ALPINE_VERSION=3.20
-ARG RUBY_VERSION=3.3.4
-FROM docker.io/ruby:$RUBY_VERSION-alpine$ALPINE_VERSION AS build-env
+ARG DEBIAN_VERSION=bookworm
+ARG RUBY_VERSION=3.3.6
+FROM docker.io/ruby:$RUBY_VERSION-$DEBIAN_VERSION AS build-env
 
 # Setting env up
 ARG APP_ROOT=/app
@@ -9,7 +9,7 @@ ENV LANG C.UTF-8
 ENV BUNDLE_SILENCE_ROOT_WARNING=1
 
 #Install dependencies needed for compilation
-RUN apk --no-cache add curl ruby-dev build-base git
+RUN apt-get update && apt-get install -qy build-essential curl git
 
 WORKDIR $APP_ROOT
 
@@ -33,17 +33,17 @@ RUN bundle config set build.nokogiri --use-system-libraries && \
 RUN rm -rf node_modules tmp/cache app/assets vendor/assets spec
 
 ############### Build step done ###############
-ARG ALPINE_VERSION=3.20
-ARG RUBY_VERSION=3.3.4
-FROM docker.io/ruby:$RUBY_VERSION-alpine$ALPINE_VERSION
+ARG DEBIAN_VERSION=bookworm
+ARG RUBY_VERSION=3.3.6
+FROM docker.io/ruby:$RUBY_VERSION-$DEBIAN_VERSION
 
 ARG APP_ROOT=/app
 
 WORKDIR $APP_ROOT
 
 # install packages
-RUN apk --update --no-cache add coreutils curl bash runit
+RUN apt-get update && apt-get install -qy curl bash runit
 COPY --from=build-env /usr/local/bundle/ /usr/local/bundle/
 COPY --from=build-env /bin/snooze /bin/snooze
 
-CMD ['/bin/sh']
+CMD ['/bin/bash']
