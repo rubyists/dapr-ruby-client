@@ -1,5 +1,12 @@
 ## [Unreleased]
 
+## [0.4.3](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.2...v0.4.3) (2024-12-16)
+
+
+### Features
+
+* **notrly:** Force a release by updating the readme with current dapr version ([#81](https://github.com/rubyists/dapr-ruby-client/issues/81)) ([e249b46](https://github.com/rubyists/dapr-ruby-client/commit/e249b4698d34eef1178bae8a7447293563494990))
+
 ## [0.4.2](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.1...v0.4.2) (2024-12-16)
 
 
