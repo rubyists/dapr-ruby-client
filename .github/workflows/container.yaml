@@ -21,7 +21,7 @@ jobs:
       # Go hard on the builders
       max-parallel: 5
       matrix:
-        ubuntu-version: ['bookworm', 'bullseye']
+        debian-version: ['bookworm', 'bullseye']
         ruby-version: ['3.3.6', '3.3.5', '3.3.4']
     steps:
       -
@@ -30,7 +30,7 @@ jobs:
       -
         name: Publish to ghcr.io
         env:
-          UBUNTU_VERSION: ${{ matrix.ubuntu-version }}
+          DEBIAN_VERSION: ${{ matrix.debian-version }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUBY_VERSION: ${{ matrix.ruby-version }}
           TAG: ${{ github.event.inputs.tag || '' }}
@@ -54,7 +54,7 @@ jobs:
           [ "$TRACE" = 'true' ] && printf 'Calling ./ci/build_image.sh -vvp "%s"\n' "$version" >&2
           IMAGE_NAME=$(basename "$GITHUB_REPOSITORY")  \
           GITHUB_TOKEN=$REGISTRY_TOKEN \
-          UBUNTU_VERSION=$UBUNTU_VERSION \
+          DEBIAN_VERSION=$DEBIAN_VERSION \
           RUBY_VERSION=$RUBY_VERSION \
             ./ci/build_image.sh -vvp "$version"
         # yamllint enable rule:line-length
