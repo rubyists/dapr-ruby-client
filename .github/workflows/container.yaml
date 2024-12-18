@@ -21,12 +21,8 @@ jobs:
       # Go hard on the builders
       max-parallel: 5
       matrix:
-        alpine-version: ['3.20', '3.19']
+        ubuntu-version: ['bookworm', 'bullseye']
         ruby-version: ['3.3.6', '3.3.5', '3.3.4']
-        # Only 3.3.6 is published (to docker.io) for 3.21, so we include only that here.
-        include:
-          - alpine-version: '3.21'
-            ruby-version: '3.3.6'
     steps:
       -
         name: Checkout repository
@@ -34,7 +30,7 @@ jobs:
       -
         name: Publish to ghcr.io
         env:
-          ALPINE_VERSION: ${{ matrix.alpine-version }}
+          UBUNTU_VERSION: ${{ matrix.ubuntu-version }}
           REGISTRY_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           RUBY_VERSION: ${{ matrix.ruby-version }}
           TAG: ${{ github.event.inputs.tag || '' }}
@@ -58,7 +54,7 @@ jobs:
           [ "$TRACE" = 'true' ] && printf 'Calling ./ci/build_image.sh -vvp "%s"\n' "$version" >&2
           IMAGE_NAME=$(basename "$GITHUB_REPOSITORY")  \
           GITHUB_TOKEN=$REGISTRY_TOKEN \
-          ALPINE_VERSION=$ALPINE_VERSION \
+          UBUNTU_VERSION=$UBUNTU_VERSION \
           RUBY_VERSION=$RUBY_VERSION \
             ./ci/build_image.sh -vvp "$version"
         # yamllint enable rule:line-length
