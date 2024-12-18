@@ -1,5 +1,16 @@
 ## [Unreleased]
 
+## [0.5.0](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.3...v0.5.0) (2024-12-18)
+
+
+### ⚠ BREAKING CHANGES
+
+* **build:** Change to use debian base images ([#83](https://github.com/rubyists/dapr-ruby-client/issues/83))
+
+### Features
+
+* **build:** Change to use debian base images ([#83](https://github.com/rubyists/dapr-ruby-client/issues/83)) ([3ca94ae](https://github.com/rubyists/dapr-ruby-client/commit/3ca94aef659bcd6d97d9c9db66fa6b4b722e4f4f))
+
 ## [0.4.3](https://github.com/rubyists/dapr-ruby-client/compare/v0.4.2...v0.4.3) (2024-12-16)
 
 
